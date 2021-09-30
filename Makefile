@@ -18,3 +18,12 @@ test_modmr.o: test_modmr.cpp modmr.hpp
 modmr.o: modmr.hpp modmr.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c modmr.cpp
 
+test_memory: test_memory.o memory.o
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o test_memory.out test_memory.o memory.o
+
+test_memory.o: test_memory.cpp memory.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c test_memory.cpp
+
+memory.o: memory.hpp memory.cpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c memory.cpp
+
