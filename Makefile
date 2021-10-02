@@ -1,11 +1,11 @@
 CC = g++
-CPPFLAGS = -Wall
+CPPFLAGS = -g -Wall
 CXXFLAGS = -std=c++11
 
-main: main.o modmr.o
-	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o modmr.o
+main: main.o modmr.o reader.o
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o modmr.o reader.o
 
-main.o: main.cpp modmr.hpp
+main.o: main.cpp modmr.hpp reader.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c main.cpp
 
 
@@ -18,3 +18,14 @@ test_modmr.o: test_modmr.cpp modmr.hpp
 modmr.o: modmr.hpp modmr.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c modmr.cpp
 
+test_memory: test_memory.o memory.o
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o test_memory.out test_memory.o memory.o
+
+test_memory.o: test_memory.cpp memory.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c test_memory.cpp
+
+memory.o: memory.hpp memory.cpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c memory.cpp
+
+reader.o: reader.hpp reader.cpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c reader.cpp
