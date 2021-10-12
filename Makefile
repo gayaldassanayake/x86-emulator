@@ -2,10 +2,10 @@ CC = g++
 CPPFLAGS = -g -Wall
 CXXFLAGS = -std=c++11
 
-main: main.o modmr.o reader.o
-	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o modmr.o reader.o
+main: main.o modmr.o reader.o memory.o register.o opcodes/add.o
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o modmr.o reader.o memory.o register.o opcodes/add.o
 
-main.o: main.cpp modmr.hpp reader.hpp
+main.o: main.cpp modmr.hpp reader.hpp memory.hpp register.hpp opcodes/add.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c main.cpp
 
 
@@ -32,3 +32,6 @@ reader.o: reader.hpp reader.cpp
 
 register.o: register.hpp register.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c register.cpp
+
+add.o: opcodes/add.hpp opcodes/add.cpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/add.cpp

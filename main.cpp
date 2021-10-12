@@ -2,6 +2,11 @@
 #include "modmr.hpp"
 #include "reader.hpp"
 #include "utils.hpp"
+#include "memory.hpp"
+#include "register.hpp"
+
+#include "opcodes/opcodes.hpp"
+
 using std::cout;
 using std::endl;
 
@@ -9,7 +14,10 @@ int main(){
 
     cout<<std::hex;
 
-    Reader reader("sample1.txt");
+    Reader reader("sample_inputs/add.txt");
+    Memory memory(1000);
+    // RegisterBank rb();
+    RegisterBank rb = RegisterBank();
 
     // while(!reader.isEOF()){
     //     uint8_t tmp=reader.readNextByte();
@@ -67,6 +75,10 @@ int main(){
             arguments->opcode = next_byte;
         }
         // call the respective handler
+        std::cout<<"test"<<std::endl;
+        std::cout<<(uint32_t)arguments->opcode<<std::endl;
+        add03(arguments, &reader, &rb, &memory);
+        break;
     }
 
 }
