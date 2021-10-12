@@ -1,203 +1,187 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
+
 using namespace std;
 
 uint32_t MASK16 = 65535;
-uint16_t MASK8 = 255;
+uint32_t MASK8 = 255;
 
 enum position { LEFT, RIGHT};
-class Register16;
-class Register32;
 
-class Register8 {
-    private:
-    uint8_t buffer;
-    Register16 *mainRegister;
-    position alignment;
-
-    public:
-    void set(uint8_t bf);
-
-    Register8(uint8_t bf) {
-        buffer = bf;
-    }
-
-    void assignMainRegister(Register16* mainRegPtr, position al) {
-        mainRegister = mainRegPtr;
-        alignment = al;
-    }
-
-    uint8_t fetch() {
-        return buffer;
-    }
-
-    void setFromMain(uint8_t bf) {
-        buffer = bf;
-    }
+struct Register {
+    string name;
+    uint32_t value = 0;
+    Register* left;
+    Register* right;
 };
 
-class Register16 {
+class RegisterBank {
+
     private:
-    uint16_t buffer;
-    Register32 *mainRegister;
-    Register8 *leastSigSubRegister;
-    Register8 *mostSigSubRegister;
+    Register AH = {"AH", 0, nullptr, nullptr};
+    Register AL = {"AL", 0, nullptr, nullptr};
+    Register BH = {"BH", 0, nullptr, nullptr};
+    Register BL = {"BL", 0, nullptr, nullptr};
+    Register CH = {"CH", 0, nullptr, nullptr};
+    Register CL = {"CL", 0, nullptr, nullptr};
+    Register DH = {"DH", 0, nullptr, nullptr};
+    Register DL = {"DL", 0, nullptr, nullptr};
+    Register AX = {"AX", 0, &AH, &AL};
+    Register BX = {"BX", 0, &BH, &BL};
+    Register CX = {"CX", 0, &CH, &CL};
+    Register DX = {"DX", 0, &DH, &DL};
+    Register EAX = {"EAX", 0, nullptr, &AX};
+    Register EBX = {"EBX", 0, nullptr, &BX};
+    Register ECX = {"ECX", 0, nullptr, &CX};
+    Register EDX = {"EDX", 0, nullptr, &DX};
+    Register ESI = {"ESI", 0, nullptr, nullptr};
+    Register EDI = {"EDI", 0, nullptr, nullptr};
+    Register ESP = {"ESP", 0, nullptr, nullptr};
+    Register EBP = {"EBP", 0, nullptr, nullptr};
 
-    uint16_t generateRightSubRegValue() {
-        return (uint8_t) (buffer & MASK8);
+    map<string, Register*> registers = {
+        {"AH", &AH}, {"AL", &AL}, {"BH", &BH}, {"BL", &BL}, {"CH", &CH}, {"CL", &CL}, {"DH", &DH}, {"DL", &DL},
+        {"AX", &AX}, {"BX", &BX}, {"CX", &CX}, {"DX", &DX}, 
+        {"EAX", &EAX}, {"EBX", &EBX}, {"ECX", &ECX}, {"EDX", &EDX},
+        {"ESI", &ESI}, {"EDI", &EDI}, {"ESP", &ESP}, {"EBP", &EBP}
+    };
+
+    void set32(Register* reg, uint32_t value) {
+        reg->value = value;
+        Register* rightPtr = reg->right;
+        if(rightPtr!=nullptr) {
+            rightPtr->value  = (value & MASK16);
+            Register* rightRightPtr = rightPtr->right;
+            Register* leftRightPtr = rightPtr->left;
+            if(rightRightPtr!=nullptr) {
+                rightRightPtr->value  = (rightPtr->value & MASK8);
+            }
+            if(leftRightPtr!=nullptr) {
+                leftRightPtr->value  = (rightPtr->value >> 8);
+            }
+        }
     }
 
-    uint16_t generateLeftSubRegValue() {
-        return (uint8_t) (buffer>>8);
-    }
-    
-    public:
-    void set(uint16_t bf);
-    void setLeastSig8(uint8_t bf8);
-    void setMostSig8(uint8_t bf8);
-
-    Register16(uint16_t bf) {
-        buffer = bf;
-    }
-
-    Register16(uint16_t bf, Register8* mssreg, Register8* lssreg) {
-        buffer = bf;
-
-        mostSigSubRegister = mssreg;
-        mostSigSubRegister->assignMainRegister(this, LEFT);
-        mostSigSubRegister->setFromMain(generateLeftSubRegValue());
-
-        leastSigSubRegister = lssreg;
-        leastSigSubRegister->assignMainRegister(this, RIGHT);
-        leastSigSubRegister->setFromMain(generateRightSubRegValue());
+    void set16(Register* reg, Register* parent, uint32_t value) {
+        reg->value = value;
+        parent->value ^= ((parent->value ^ value) & MASK16);
+        Register* rightPtr = reg->right;
+        Register* leftPtr = reg->left;
+        if(rightPtr!=nullptr) {
+            rightPtr->value  = (value & MASK8);
+        }
+        if(leftPtr!=nullptr) {
+            leftPtr->value = (value >> 8);
+        }
     }
 
-    void assignMainRegister(Register32* mainRegPtr) {
-        mainRegister = mainRegPtr;
-    }
-
-    uint16_t fetch() {
-        return buffer;
-    }
-
-    void setFromMain(uint16_t bf) {
-        buffer = bf;
-        mostSigSubRegister->setFromMain(generateLeftSubRegValue());
-        leastSigSubRegister->setFromMain(generateRightSubRegValue());
-    }
-};
-
-void Register8::set(uint8_t bf) {
-        buffer = bf;
-        if(alignment == RIGHT)
-            mainRegister->setLeastSig8(bf);
-        else if(alignment == LEFT)
-            mainRegister->setMostSig8(bf);
-}
-
-class Register32 {
-    private:
-    uint32_t buffer;
-    Register16 *leastSigSubRegister;
-
-    uint16_t generateSubRegValue() {
-        return (uint16_t) (buffer & MASK16);
+    void set8(Register* reg, Register* parent, Register* grandparent, uint32_t value, position pos) {
+        reg->value = value;
+        uint32_t mask = (pos==RIGHT) ? MASK8 : MASK8 << 8;
+        value = (pos==RIGHT) ? value : value << 8;
+        parent->value ^= ((parent->value ^ value) & mask);
+        grandparent->value ^= ((grandparent->value ^ value) & mask);
     }
 
     public:
-    Register32(uint32_t bf) {
-        buffer = bf;
+    void setRegister(string name, uint32_t value) {
+        Register* reg = registers[name];
+        Register* parent;
+        Register* grandparent;
+        if(name == "EAX") {
+            set32(reg, value);
+        } else if(name == "EBX") {
+            set32(reg, value);
+        } else if(name == "ECX") {
+            set32(reg, value);
+        } else if(name == "EDX") {
+            set32(reg, value);
+        } else if(name == "ESI") {
+            set32(reg, value);
+        } else if(name == "EDI") {
+            set32(reg, value);
+        } else if(name == "EBP") {
+            set32(reg, value);
+        } else if(name == "ESP") {
+            set32(reg, value);
+        } else if(name == "AX") {
+            parent = registers["EAX"];
+            set16(reg, parent, value);
+        } else if(name == "BX") {
+            parent = registers["EBX"];
+            set16(reg, parent, value);
+        } else if(name == "CX") {
+            parent = registers["ECX"];
+            set16(reg, parent, value);
+        } else if(name == "DX") {
+            parent = registers["EDX"];
+            set16(reg, parent, value);
+        } else if(name == "AH") {
+            parent = registers["AX"];
+            grandparent = registers["EAX"];
+            set8(reg, parent, grandparent, value, LEFT);
+        } else if(name == "AL") {
+            parent = registers["AX"];
+            grandparent = registers["EAX"];
+            set8(reg, parent, grandparent, value, RIGHT);
+        } else if(name == "BH") {
+            parent = registers["BX"];
+            grandparent = registers["EBX"];
+            set8(reg, parent, grandparent, value, LEFT);
+        } else if(name == "BL") {
+            parent = registers["BX"];
+            grandparent = registers["EBX"];
+            set8(reg, parent, grandparent, value, RIGHT);
+        } else if(name == "CH") {
+            parent = registers["CX"];
+            grandparent = registers["ECX"];
+            set8(reg, parent, grandparent, value, LEFT);
+        } else if(name == "CL") {
+            parent = registers["CX"];
+            grandparent = registers["ECX"];
+            set8(reg, parent, grandparent, value, RIGHT);
+        } else if(name == "DH") {
+            parent = registers["DX"];
+            grandparent = registers["EDX"];
+            set8(reg, parent, grandparent, value, LEFT);
+        } else if(name == "DL") {
+            parent = registers["DX"];
+            grandparent = registers["EDX"];
+            set8(reg, parent, grandparent, value, RIGHT);
+        }
     }
 
-    Register32(uint32_t bf, Register16* lssreg) {
-        buffer = bf;
-        leastSigSubRegister = lssreg;
-        leastSigSubRegister->assignMainRegister(this);
-        leastSigSubRegister->setFromMain(generateSubRegValue());
-    }
-
-    uint32_t fetch() {
-        return buffer;
-    }
-
-    void set(uint32_t bf) {
-        buffer = bf;
-        leastSigSubRegister->setFromMain(generateSubRegValue());
-    }
-
-    void setLeastSig16(uint16_t bf16) {
-        buffer ^= ((buffer ^ bf16) & MASK16);
+    uint32_t getRegister(string name) {
+        if(registers.find(name) != registers.end()) {
+            return registers[name]->value;
+        }
+        return 0;
     }
 };
 
-void Register16::set(uint16_t bf) {
-        buffer = bf;
-        mainRegister->setLeastSig16(bf);
-        mostSigSubRegister->setFromMain(generateLeftSubRegValue());
-        leastSigSubRegister->setFromMain(generateRightSubRegValue());
-}
+// int main() {
+//     RegisterBank rb = RegisterBank();
+//     rb.setRegister("EAX", 222335);
+//     cout<<"EAX "<<rb.getRegister("EAX")<<endl;
+//     cout<<"AX "<<rb.getRegister("AX")<<endl;
+//     cout<<"AH "<<rb.getRegister("AH")<<endl;
+//     cout<<"AL "<<rb.getRegister("AL")<<endl<<endl;
+//     rb.setRegister("AH", 34);
+//     rb.setRegister("AL", 35);
+//     cout<<"AH "<<rb.getRegister("AH")<<endl;
+//     cout<<"AL "<<rb.getRegister("AL")<<endl;
+//     cout<<"AX "<<rb.getRegister("AX")<<endl;
+//     cout<<"EAX "<<rb.getRegister("EAX")<<endl<<endl;  
 
-void Register16::setLeastSig8(uint8_t bf8) {
-    buffer ^= ((buffer ^ bf8) &MASK8);
-    mainRegister->setLeastSig16(buffer);
-}
+//     rb.setRegister("AX", 15721);
+//     cout<<"AX "<<rb.getRegister("AX")<<endl;
+//     cout<<"AH "<<rb.getRegister("AH")<<endl;
+//     cout<<"AL "<<rb.getRegister("AL")<<endl;
+//     cout<<"EAX "<<rb.getRegister("EAX")<<endl<<endl;  
 
-void Register16::setMostSig8(uint8_t bf8) {
-    buffer ^= ((buffer ^ (bf8<<8)) &(MASK8<<8));
-    mainRegister->setLeastSig16(buffer);
-}
-
-int main() {
-    uint8_t bf8 = 245;
-    Register8 AH = Register8(bf8);
-    cout<<"AH :"<<unsigned(AH.fetch())<<endl;
-    AH.set(145);
-    cout<<"AH :"<<unsigned(AH.fetch())<<endl<<endl;
-
-    Register8 AL = Register8(bf8);
-    cout<<"AL :"<<unsigned(AL.fetch())<<endl;
-    AL.set(145);
-    cout<<"AL :"<<unsigned(AL.fetch())<<endl<<endl;
-
-    // max 65535
-    uint16_t bf16 = 25535;
-    Register16 AX = Register16(bf16, &AH, &AL);
-    cout<<"AX :"<<AX.fetch()<<endl;
-    cout<<"AH :"<<unsigned(AH.fetch())<<endl;
-    cout<<"AL :"<<unsigned(AL.fetch())<<endl<<endl;
-
-    // max 4294967295
-    uint32_t bf32 = 3609378592;
-    Register32 EAX = Register32(bf32, &AX);
-    cout<<"EAX:"<<EAX.fetch()<<endl;
-    cout<<"AX :"<<AX.fetch()<<endl;
-    cout<<"AH :"<<unsigned(AH.fetch())<<endl;
-    cout<<"AL :"<<unsigned(AL.fetch())<<endl<<endl;
-
-    EAX.set(1609378592);
-    cout<<"EAX:"<<EAX.fetch()<<endl;
-    cout<<"AX :"<<AX.fetch()<<endl;
-    cout<<"AH :"<<unsigned(AH.fetch())<<endl;
-    cout<<"AL :"<<unsigned(AL.fetch())<<endl<<endl;
-
-    AX.set(25535);
-    cout<<"EAX:"<<EAX.fetch()<<endl;
-    cout<<"AX :"<<AX.fetch()<<endl<<endl;
-    cout<<"AH :"<<unsigned(AH.fetch())<<endl;
-    cout<<"AL :"<<unsigned(AL.fetch())<<endl<<endl;
-
-    // 8 bit reg does not update 32 bit reg.
-    AH.set(145);
-    cout<<"EAX:"<<EAX.fetch()<<endl;
-    cout<<"AX :"<<AX.fetch()<<endl;
-    cout<<"AH :"<<unsigned(AH.fetch())<<endl;
-    cout<<"AL :"<<unsigned(AL.fetch())<<endl<<endl;
-
-    AL.set(123);
-    cout<<"EAX:"<<EAX.fetch()<<endl;
-    cout<<"AX :"<<AX.fetch()<<endl;
-    cout<<"AH :"<<unsigned(AH.fetch())<<endl;
-    cout<<"AL :"<<unsigned(AL.fetch())<<endl<<endl;
-    return 0;
-}
+//     rb.setRegister("ESI", 34234);
+//     cout<<"ESI "<<rb.getRegister("ESI")<<endl<<endl;
+//     return 0;
+// }
