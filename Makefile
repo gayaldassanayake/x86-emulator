@@ -29,3 +29,6 @@ memory.o: memory.hpp memory.cpp
 
 reader.o: reader.hpp reader.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c reader.cpp
+
+register.o: register.hpp register.cpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c register.cpp
