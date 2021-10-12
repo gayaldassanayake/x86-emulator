@@ -3,6 +3,39 @@
 
 using namespace std;
 
+uint32_t MASK16 = 65535;
+uint32_t MASK8 = 255;
+
+RegisterBank::RegisterBank(){
+    AH = new Register({"AH", 0, nullptr, nullptr});
+    AL = new Register({"AL", 0, nullptr, nullptr});
+    BH = new Register({"BH", 0, nullptr, nullptr});
+    BL = new Register({"BL", 0, nullptr, nullptr});
+    CH = new Register({"CH", 0, nullptr, nullptr});
+    CL = new Register({"CL", 0, nullptr, nullptr});
+    DH = new Register({"DH", 0, nullptr, nullptr});
+    DL = new Register({"DL", 0, nullptr, nullptr});
+    AX = new Register({"AX", 0, AH, AL});
+    BX = new Register({"BX", 0, BH, BL});
+    CX = new Register({"CX", 0, CH, CL});
+    DX = new Register({"DX", 0, DH, DL});
+    EAX = new Register({"EAX", 0, nullptr, AX});
+    EBX = new Register({"EBX", 0, nullptr, BX});
+    ECX = new Register({"ECX", 0, nullptr, CX});
+    EDX = new Register({"EDX", 0, nullptr, DX});
+    ESI = new Register({"ESI", 0, nullptr, nullptr});
+    EDI = new Register({"EDI", 0, nullptr, nullptr});
+    ESP = new Register({"ESP", 0, nullptr, nullptr});
+    EBP = new Register({"EBP", 0, nullptr, nullptr});
+
+    registers = {
+        {"AH", AH}, {"AL", AL}, {"BH", BH}, {"BL", BL}, {"CH", CH}, {"CL", CL}, {"DH", DH}, {"DL", DL},
+        {"AX", AX}, {"BX", BX}, {"CX", CX}, {"DX", DX}, 
+        {"EAX", EAX}, {"EBX", EBX}, {"ECX", ECX}, {"EDX", EDX},
+        {"ESI", ESI}, {"EDI", EDI}, {"ESP", ESP}, {"EBP", EBP}
+    };
+}
+
 void RegisterBank::set32(Register* reg, uint32_t value) {
     reg->value = value;
     Register* rightPtr = reg->right;
@@ -114,27 +147,27 @@ uint32_t RegisterBank::getRegister(string name) {
     return 0;
 }
 
-int main() {
-    RegisterBank rb = RegisterBank();
-    rb.setRegister("EAX", 222335);
-    cout<<"EAX "<<rb.getRegister("EAX")<<endl;
-    cout<<"AX "<<rb.getRegister("AX")<<endl;
-    cout<<"AH "<<rb.getRegister("AH")<<endl;
-    cout<<"AL "<<rb.getRegister("AL")<<endl<<endl;
-    rb.setRegister("AH", 34);
-    rb.setRegister("AL", 35);
-    cout<<"AH "<<rb.getRegister("AH")<<endl;
-    cout<<"AL "<<rb.getRegister("AL")<<endl;
-    cout<<"AX "<<rb.getRegister("AX")<<endl;
-    cout<<"EAX "<<rb.getRegister("EAX")<<endl<<endl;  
+// int main() {
+//     RegisterBank rb = RegisterBank();
+//     rb.setRegister("EAX", 222335);
+//     cout<<"EAX "<<rb.getRegister("EAX")<<endl;
+//     cout<<"AX "<<rb.getRegister("AX")<<endl;
+//     cout<<"AH "<<rb.getRegister("AH")<<endl;
+//     cout<<"AL "<<rb.getRegister("AL")<<endl<<endl;
+//     rb.setRegister("AH", 34);
+//     rb.setRegister("AL", 35);
+//     cout<<"AH "<<rb.getRegister("AH")<<endl;
+//     cout<<"AL "<<rb.getRegister("AL")<<endl;
+//     cout<<"AX "<<rb.getRegister("AX")<<endl;
+//     cout<<"EAX "<<rb.getRegister("EAX")<<endl<<endl;  
 
-    rb.setRegister("AX", 15721);
-    cout<<"AX "<<rb.getRegister("AX")<<endl;
-    cout<<"AH "<<rb.getRegister("AH")<<endl;
-    cout<<"AL "<<rb.getRegister("AL")<<endl;
-    cout<<"EAX "<<rb.getRegister("EAX")<<endl<<endl;  
+//     rb.setRegister("AX", 15721);
+//     cout<<"AX "<<rb.getRegister("AX")<<endl;
+//     cout<<"AH "<<rb.getRegister("AH")<<endl;
+//     cout<<"AL "<<rb.getRegister("AL")<<endl;
+//     cout<<"EAX "<<rb.getRegister("EAX")<<endl<<endl;  
 
-    rb.setRegister("ESI", 34234);
-    cout<<"ESI "<<rb.getRegister("ESI")<<endl<<endl;
-    return 0;
-}
+//     rb.setRegister("ESI", 34234);
+//     cout<<"ESI "<<rb.getRegister("ESI")<<endl<<endl;
+//     return 0;
+// }
