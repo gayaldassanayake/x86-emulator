@@ -1,3 +1,6 @@
+#ifndef MODRM_H
+#define MODRM_H
+
 #include <string>
 #include <stdlib.h>
 #include <iostream>
@@ -14,19 +17,22 @@ enum OperandType
 };
 
 struct ModMrDecodeInputArguments{
-    uint32_t modmr_byte;
-    // int first_operand_length;
-    // int second_operand_length;
-    enum OperandType first_operand_type;
-    enum OperandType second_operand_type;
+    uint8_t modmr_byte;
+    // int rm_operand_length;
+    // int reg_operand_length;
+    enum OperandType rm_operand_type;
+    enum OperandType reg_operand_type;
 };
 
 struct ModMrDecodeOutputArguments{
-    string first_operand;
-    string second_operand;
+    string rm_operand;
+    string reg_operand;
     int displacement;
     bool is_SIB_available;
-    bool is_first_op_memory_location;
+    bool is_rm_op_memory_location;
 };
 
 ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs);
+void printModRm(ModMrDecodeOutputArguments* outputs);
+
+#endif
