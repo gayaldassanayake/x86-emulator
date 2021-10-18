@@ -10,11 +10,11 @@
 using std::cout;
 using std::endl;
 
-int main(){
+int main(int argc, char *argv[]){
 
-    cout<<std::hex;
+    // cout<<std::hex;
 
-    Reader reader("sample_inputs/add.txt");
+    Reader reader(argv[1]);
     Memory memory(1000);
     // RegisterBank rb();
     RegisterBank rb = RegisterBank();
@@ -75,8 +75,6 @@ int main(){
             arguments->opcode = next_byte;
         }
         // call the respective handler
-        std::cout<<"test"<<std::endl;
-        std::cout<<(uint32_t)arguments->opcode<<std::endl;
         add03(arguments, &reader, &rb, &memory);
         break;
     }
