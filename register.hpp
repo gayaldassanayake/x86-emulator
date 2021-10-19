@@ -49,8 +49,10 @@ class RegisterBank {
         struct Register *ESP;
         struct Register *EBP;
         struct Register *EIP;
+        struct Register *EFLAGS;
 
         std::map<string, Register*> registers;
+        std::map<string, int> flags;
 
         void set32(Register* reg, uint32_t value);
         void set16(Register* reg, Register* parent, uint32_t value);
@@ -61,6 +63,8 @@ class RegisterBank {
         RegisterBank();
         void setRegister(string name, uint32_t value);
         uint32_t getRegister(string name);
+        void setFlag(string name, int value);
+        int getFlag(string name);
 };
 
 #endif
