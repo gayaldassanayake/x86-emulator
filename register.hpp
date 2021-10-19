@@ -34,6 +34,12 @@ class RegisterBank {
         struct Register *SP;
         struct Register *BP;
         struct Register *IP;
+        struct Register *CS;
+        struct Register *SS;
+        struct Register *DS;
+        struct Register *ES;
+        struct Register *FS;
+        struct Register *GS;
         struct Register *EAX;
         struct Register *EBX;
         struct Register *ECX;
