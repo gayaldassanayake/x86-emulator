@@ -9,6 +9,6 @@
 #include "../register.hpp"
 #include "../utils.hpp"
 
-void mov8b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory);
+void mov(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory);
 
 #endif

@@ -23,6 +23,7 @@ int main(int argc, char *argv[]){
     RegisterBank rb = RegisterBank();
 
     std::set<uint32_t, std::greater<uint32_t> > op_add = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x81, 0x83 };
+    std::set<uint32_t, std::greater<uint32_t> > op_mov = { 0x8b };
 
     // while(!reader.isEOF()){
     //     uint8_t tmp=reader.readNextByte();
@@ -85,6 +86,8 @@ int main(int argc, char *argv[]){
         // call the respective handler
         if(op_add.count(arguments->opcode)){
             add(arguments, &reader, &rb, &memory);
+        } else if(op_mov.count(arguments->opcode)) {
+            mov(arguments, &reader, &rb, &memory);
         }
         else{
             printf("Opcode: %s is not suporting!\n", intToHexStr(arguments->opcode).c_str());
