@@ -75,7 +75,11 @@ int main(int argc, char *argv[]){
             arguments->opcode = next_byte;
         }
         // call the respective handler
-        add03(arguments, &reader, &rb, &memory);
+        if(arguments->opcode == 0x03) {
+            add03(arguments, &reader, &rb, &memory);
+        } else if(arguments->opcode == 0x8b) {
+            mov8b(arguments, &reader, &rb, &memory);
+        }
         break;
     }
 
