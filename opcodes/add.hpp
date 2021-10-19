@@ -9,6 +9,6 @@
 #include "../register.hpp"
 #include "../utils.hpp"
 
-void add03(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory);
+void add(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory);
 
 #endif

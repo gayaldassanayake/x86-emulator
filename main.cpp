@@ -1,14 +1,17 @@
 #include <iostream>
+#include <set>
 #include "modmr.hpp"
 #include "reader.hpp"
 #include "utils.hpp"
 #include "memory.hpp"
 #include "register.hpp"
+#include "utility_functions.hpp"
 
 #include "opcodes/opcodes.hpp"
 
 using std::cout;
 using std::endl;
+using std::find;
 
 int main(int argc, char *argv[]){
 
@@ -19,12 +22,16 @@ int main(int argc, char *argv[]){
     // RegisterBank rb();
     RegisterBank rb = RegisterBank();
 
+    set<uint32_t, greater<uint32_t> > op_add = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x81, 0x83 };
+
     // while(!reader.isEOF()){
     //     uint8_t tmp=reader.readNextByte();
     //     cout<<(uint32_t)tmp<<endl;
     // }
 
     uint8_t next_byte;
+
+    printf("\nEmulation started...\n\n");
 
     while(!reader.isEOF()){       
         next_byte = reader.readNextByte();
@@ -74,9 +81,17 @@ int main(int argc, char *argv[]){
             arguments->opcode_type = 1;
             arguments->opcode = next_byte;
         }
+        
         // call the respective handler
-        add03(arguments, &reader, &rb, &memory);
-        break;
+        if(op_add.count(arguments->opcode)){
+            add(arguments, &reader, &rb, &memory);
+        }
+        else{
+            printf("Opcode: %s is not suporting!\n", intToHexStr(arguments->opcode).c_str());
+        }
+        
+        printf("\nFinished Emulating...\n");
+        break; 
     }
 
 }

@@ -26,7 +26,7 @@ reader.o: reader.hpp reader.cpp
 register.o: register.hpp register.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c register.cpp
 
-add.o: opcodes/add.hpp opcodes/add.cpp
+add.o: opcodes/add.hpp opcodes/add.cpp ../utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/add.cpp
 
 clean: 
