@@ -3,8 +3,7 @@
 
 #include <string>
 #include <map>
-
-using namespace std;
+#include "utility_functions.hpp"
 
 enum position { LEFT, RIGHT };
 
@@ -39,11 +38,12 @@ class RegisterBank {
         struct Register *ESP;
         struct Register *EBP;
 
-        map<string, Register*> registers;
+        std::map<string, Register*> registers;
 
         void set32(Register* reg, uint32_t value);
         void set16(Register* reg, Register* parent, uint32_t value);
         void set8(Register* reg, Register* parent, Register* grandparent, uint32_t value, position pos);
+        void initializeRegisters();
 
     public:
         RegisterBank();

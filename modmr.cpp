@@ -230,7 +230,7 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                 else{
                     uint32_t displacement = readDispalcement(reader, 4);
                     output->second_operand_effective_addr = rb->getRegister(output->second_operand_register) + displacement;
-                    output->decoded_print_string_op1 = intToHexStr(displacement) + "(%" + output->second_operand_register + ")";
+                    output->decoded_print_string_op2 = intToHexStr(displacement) + "(%" + output->second_operand_register + ")";
                 }
             }
             else{

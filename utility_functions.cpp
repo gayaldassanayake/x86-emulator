@@ -7,11 +7,19 @@ string intToHexStr(uint32_t num){
     return hex_str;
 }
 
+// input format: 0xfffffffff
+uint32_t hexToInt(string hex_str){
+    std::istringstream converter(hex_str.substr(2));
+    uint32_t dec_num;
+    converter >> std::hex >> dec_num;
+    return dec_num;
+}
+
 uint32_t readDispalcement(Reader *reader, uint32_t disp_bytes){
     uint32_t displacement = 0;
     for(uint32_t i=0;i<disp_bytes;i++){
         uint32_t tmp = reader->readNextByte();
-        displacement = (displacement<<(8*i)) | tmp;
+        displacement = (tmp<<(8*i)) | displacement;
     }
     return displacement;
 }

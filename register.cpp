@@ -1,8 +1,6 @@
 #include "register.hpp"
 #include <iostream>
 
-using namespace std;
-
 uint32_t MASK16 = 65535;
 uint32_t MASK8 = 255;
 
@@ -34,6 +32,8 @@ RegisterBank::RegisterBank(){
         {"EAX", EAX}, {"EBX", EBX}, {"ECX", ECX}, {"EDX", EDX},
         {"ESI", ESI}, {"EDI", EDI}, {"ESP", ESP}, {"EBP", EBP}
     };
+
+    initializeRegisters();
 }
 
 void RegisterBank::set32(Register* reg, uint32_t value) {
@@ -147,27 +147,32 @@ uint32_t RegisterBank::getRegister(string name) {
     return 0;
 }
 
-// int main() {
-//     RegisterBank rb = RegisterBank();
-//     rb.setRegister("EAX", 222335);
-//     cout<<"EAX "<<rb.getRegister("EAX")<<endl;
-//     cout<<"AX "<<rb.getRegister("AX")<<endl;
-//     cout<<"AH "<<rb.getRegister("AH")<<endl;
-//     cout<<"AL "<<rb.getRegister("AL")<<endl<<endl;
-//     rb.setRegister("AH", 34);
-//     rb.setRegister("AL", 35);
-//     cout<<"AH "<<rb.getRegister("AH")<<endl;
-//     cout<<"AL "<<rb.getRegister("AL")<<endl;
-//     cout<<"AX "<<rb.getRegister("AX")<<endl;
-//     cout<<"EAX "<<rb.getRegister("EAX")<<endl<<endl;  
+void RegisterBank::initializeRegisters() {
+    // eax 0xbf8db144
+    // ecx 0x88c5cffb
+    // edx 0x1
+    // ebx 0xae5ff4
+    // esp 0xbf8db0bc
+    // ebp 0xbf8db118
+    // esi 0x9a0ca0
+    // edi 0x0
 
-//     rb.setRegister("AX", 15721);
-//     cout<<"AX "<<rb.getRegister("AX")<<endl;
-//     cout<<"AH "<<rb.getRegister("AH")<<endl;
-//     cout<<"AL "<<rb.getRegister("AL")<<endl;
-//     cout<<"EAX "<<rb.getRegister("EAX")<<endl<<endl;  
+    // TODO
+    // eip 0x8048354
+    // eflags 0x246
+    // cs 0x73
+    // ss 0x7b
+    // ds 0x7b
+    // es 0x7b
+    // fs 0x0
+    // gs 0x33
 
-//     rb.setRegister("ESI", 34234);
-//     cout<<"ESI "<<rb.getRegister("ESI")<<endl<<endl;
-//     return 0;
-// }
+    setRegister("EAX", hexToInt("0xbf8db144"));
+    setRegister("EBX", hexToInt("0x00ae5ff4"));
+    setRegister("ECX", hexToInt("0x88c5cffb"));
+    setRegister("EDX", hexToInt("0x000000x1"));
+    setRegister("ESP", hexToInt("0xbf8db0bc"));
+    setRegister("EBP", hexToInt("0xbf8db118"));
+    setRegister("ESI", hexToInt("0x009a0ca0"));
+    setRegister("EDI", hexToInt("0x00000000"));
+}
