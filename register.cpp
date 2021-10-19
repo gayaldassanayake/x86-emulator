@@ -17,20 +17,27 @@ RegisterBank::RegisterBank(){
     BX = new Register({"BX", 0, BH, BL});
     CX = new Register({"CX", 0, CH, CL});
     DX = new Register({"DX", 0, DH, DL});
+    SI = new Register({"SI", 0, nullptr, nullptr});
+    DI = new Register({"DI", 0, nullptr, nullptr});
+    SP = new Register({"SP", 0, nullptr, nullptr});
+    BP = new Register({"BP", 0, nullptr, nullptr});
+    IP = new Register({"IP", 0, nullptr, nullptr});
     EAX = new Register({"EAX", 0, nullptr, AX});
     EBX = new Register({"EBX", 0, nullptr, BX});
     ECX = new Register({"ECX", 0, nullptr, CX});
     EDX = new Register({"EDX", 0, nullptr, DX});
-    ESI = new Register({"ESI", 0, nullptr, nullptr});
-    EDI = new Register({"EDI", 0, nullptr, nullptr});
-    ESP = new Register({"ESP", 0, nullptr, nullptr});
-    EBP = new Register({"EBP", 0, nullptr, nullptr});
+    ESI = new Register({"ESI", 0, nullptr, SI});
+    EDI = new Register({"EDI", 0, nullptr, DI});
+    ESP = new Register({"ESP", 0, nullptr, SP});
+    EBP = new Register({"EBP", 0, nullptr, BP});
+    EIP = new Register({"EIP", 0, nullptr, IP});
 
     registers = {
         {"AH", AH}, {"AL", AL}, {"BH", BH}, {"BL", BL}, {"CH", CH}, {"CL", CL}, {"DH", DH}, {"DL", DL},
-        {"AX", AX}, {"BX", BX}, {"CX", CX}, {"DX", DX}, 
+        {"AX", AX}, {"BX", BX}, {"CX", CX}, {"DX", DX},
+        {"SI", SI}, {"DI", DI}, {"SP", SP}, {"BP", BP}, {"IP", IP},
         {"EAX", EAX}, {"EBX", EBX}, {"ECX", ECX}, {"EDX", EDX},
-        {"ESI", ESI}, {"EDI", EDI}, {"ESP", ESP}, {"EBP", EBP}
+        {"ESI", ESI}, {"EDI", EDI}, {"ESP", ESP}, {"EBP", EBP}, {"EIP", EIP}
     };
 
     initializeRegisters();
@@ -93,6 +100,8 @@ void RegisterBank::setRegister(string name, uint32_t value) {
         set32(reg, value);
     } else if(name == "ESP") {
         set32(reg, value);
+    } else if(name == "EIP") {
+        set32(reg, value);
     } else if(name == "AX") {
         parent = registers["EAX"];
         set16(reg, parent, value);
@@ -104,6 +113,21 @@ void RegisterBank::setRegister(string name, uint32_t value) {
         set16(reg, parent, value);
     } else if(name == "DX") {
         parent = registers["EDX"];
+        set16(reg, parent, value);
+    } else if(name == "SI") {
+        parent = registers["ESI"];
+        set16(reg, parent, value);
+    } else if(name == "DI") {
+        parent = registers["EDI"];
+        set16(reg, parent, value);
+    } else if(name == "SP") {
+        parent = registers["ESP"];
+        set16(reg, parent, value);
+    } else if(name == "BP") {
+        parent = registers["EBP"];
+        set16(reg, parent, value);
+    } else if(name == "IP") {
+        parent = registers["EIP"];
         set16(reg, parent, value);
     } else if(name == "AH") {
         parent = registers["AX"];
@@ -175,4 +199,5 @@ void RegisterBank::initializeRegisters() {
     setRegister("EBP", hexToInt("0xbf8db118"));
     setRegister("ESI", hexToInt("0x009a0ca0"));
     setRegister("EDI", hexToInt("0x00000000"));
+    setRegister("EIP", hexToInt("0x08048354"));
 }

@@ -29,6 +29,11 @@ class RegisterBank {
         struct Register *BX;
         struct Register *CX;
         struct Register *DX;
+        struct Register *SI;
+        struct Register *DI;
+        struct Register *SP;
+        struct Register *BP;
+        struct Register *IP;
         struct Register *EAX;
         struct Register *EBX;
         struct Register *ECX;
@@ -37,6 +42,7 @@ class RegisterBank {
         struct Register *EDI;
         struct Register *ESP;
         struct Register *EBP;
+        struct Register *EIP;
 
         std::map<string, Register*> registers;
 
