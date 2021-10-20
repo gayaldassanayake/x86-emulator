@@ -7,12 +7,6 @@ void setAndFlags(RegisterBank *rb, uint32_t result){
     rb->setFlag("SF", result>>31);
     rb->setFlag("ZF", result==0);
     rb->setFlag("PF", findParity(result));
-
-    cout<<rb->getFlag("OF")<<endl;
-    cout<<rb->getFlag("CF")<<endl;
-    cout<<rb->getFlag("SF")<<endl;
-    cout<<rb->getFlag("ZF")<<endl;
-    cout<<rb->getFlag("PF")<<endl;
 }
 
 void and24(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
