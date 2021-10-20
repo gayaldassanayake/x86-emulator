@@ -61,6 +61,8 @@ class RegisterBank {
 
     public:
         RegisterBank();
+        void setRegister(string name, uint8_t value);
+        void setRegister(string name, uint16_t value);
         void setRegister(string name, uint32_t value);
         uint32_t getRegister(string name);
         void setFlag(string name, int value);

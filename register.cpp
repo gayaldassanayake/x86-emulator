@@ -108,6 +108,14 @@ void RegisterBank::set8(Register* reg, Register* parent, Register* grandparent, 
     }
 }
 
+void RegisterBank::setRegister(string name, uint8_t value) {
+    setRegister(name, (uint32_t)value);
+}
+
+void RegisterBank::setRegister(string name, uint16_t value) {
+    setRegister(name, (uint32_t)value);
+}
+
 void RegisterBank::setRegister(string name, uint32_t value) {
     Register* reg = registers[name];
     Register* parent = nullptr;
