@@ -80,6 +80,7 @@ void RegisterBank::set32(Register* reg, uint32_t value) {
 }
 
 void RegisterBank::set16(Register* reg, Register* parent, uint32_t value) {
+    value = value & MASK16;
     reg->value = value;
     if(parent!=nullptr) {
         parent->value ^= ((parent->value ^ value) & MASK16);
@@ -95,6 +96,7 @@ void RegisterBank::set16(Register* reg, Register* parent, uint32_t value) {
 }
 
 void RegisterBank::set8(Register* reg, Register* parent, Register* grandparent, uint32_t value, position pos) {
+    value = value & MASK8;
     reg->value = value;
     uint32_t mask = (pos==RIGHT) ? MASK8 : MASK8 << 8;
     value = (pos==RIGHT) ? value : value << 8;
@@ -245,7 +247,7 @@ void RegisterBank::initializeRegisters() {
     // setRegister("GS",  hexToInt("0x00000033"));
     // setRegister("EFLAGS", hexToInt("0x00000246"));
     
-    setRegister("EAX", hexToInt("0x00000000"));
+    setRegister("EAX", hexToInt("0x00000330"));
     setRegister("EBX", hexToInt("0x00000020"));
     setRegister("ECX", hexToInt("0x00000040"));
     setRegister("EDX", hexToInt("0x00000060"));

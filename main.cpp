@@ -23,7 +23,7 @@ int main(int argc, char *argv[]){
     RegisterBank rb = RegisterBank();
 
     std::set<uint32_t, std::greater<uint32_t> > op_add = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x81, 0x83 };
-    std::set<uint32_t, std::greater<uint32_t> > op_mov = { 0x8b };
+    std::set<uint32_t, std::greater<uint32_t> > op_mov = { 0x88, 0x8a, 0x8b, 0x89, 0xc6, 0xc7 };
 
     // while(!reader.isEOF()){
     //     uint8_t tmp=reader.readNextByte();
