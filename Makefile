@@ -2,10 +2,10 @@ CC = g++
 CPPFLAGS = -g -Wall
 CXXFLAGS = -std=c++11
 
-main: main.o modmr.o reader.o memory.o register.o opcodes/add.o sib.o utility_functions.o
-	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o modmr.o reader.o memory.o register.o opcodes/add.o sib.o utility_functions.o
+main: main.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o sib.o utility_functions.o
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o sib.o utility_functions.o
 
-main.o: main.cpp modmr.hpp reader.hpp memory.hpp register.hpp opcodes/add.hpp sib.hpp utility_functions.hpp
+main.o: main.cpp modmr.hpp reader.hpp memory.hpp register.hpp opcodes/add.hpp opcodes/mov.hpp opcodes/and.hpp opcodes/or.hpp sib.hpp utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c main.cpp
 
 modmr.o: modmr.hpp modmr.cpp sib.hpp utility_functions.hpp
@@ -28,6 +28,15 @@ register.o: register.hpp register.cpp
 
 add.o: opcodes/add.hpp opcodes/add.cpp ../utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/add.cpp
+
+mov.o: opcodes/mov.hpp opcodes/mov.cpp ../utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/mov.cpp
+
+and.o: opcodes/and.hpp opcodes/and.cpp ../utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/and.cpp
+
+or.o: opcodes/or.hpp opcodes/or.cpp ../utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/or.cpp
 
 clean: 
 	$(RM) decode.out *.o
