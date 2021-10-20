@@ -23,3 +23,13 @@ uint32_t readDispalcement(Reader *reader, uint32_t disp_bytes){
     }
     return displacement;
 }
+
+bool findParity(uint32_t x){
+   uint32_t y;
+   y = x ^ (x >> 1);
+   y = y ^ (y >> 2);
+   y = y ^ (y >> 4);
+   y = y ^ (y >> 8);
+   y = y ^ (y >>16);
+   return y & 1;
+}

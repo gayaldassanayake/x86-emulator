@@ -29,10 +29,10 @@ register.o: register.hpp register.cpp
 add.o: opcodes/add.hpp opcodes/add.cpp ../utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/add.cpp
 
-mov.o: opcodes/mov.hpp opcodes/mov.cpp
+mov.o: opcodes/mov.hpp opcodes/mov.cpp ../utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/mov.cpp
 
-and.o: opcodes/and.hpp opcodes/and.cpp
+and.o: opcodes/and.hpp opcodes/and.cpp ../utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/and.cpp
 
 clean: 
