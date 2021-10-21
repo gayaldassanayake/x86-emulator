@@ -6,7 +6,7 @@
 #include <fstream>
 
 using std::string;
-
+    
 class Reader{
     private:
         string input_file_path;
@@ -17,6 +17,7 @@ class Reader{
         ~Reader();
         uint8_t readNextByte();
         bool isEOF();
+        uint8_t peekNextByte();
 };
 
 #endif

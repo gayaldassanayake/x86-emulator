@@ -1,7 +1,7 @@
 #ifndef OPEX_H
 #define OPEX_H
 
-#include "opcodes.hpp"
+#include "opcodes/opcodes.hpp"
 #include "reader.hpp"
 #include "register.hpp"
 #include "memory.hpp"
