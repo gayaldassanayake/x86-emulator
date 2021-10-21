@@ -39,6 +39,56 @@ void inc40s(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Mem
     setIncFlags(rb, result);
 }
 
+void incfe(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
+    // FE+rd
+    // INC r/m8
+    // decode
+    ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, false, false, REGISTER_8, REGISTER_8});
+    ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
+    
+    printf("inc %s\n",modrm_byte_decoded->decoded_print_string_op1.c_str());
+
+    // execute
+    uint32_t result;
+    if(modrm_byte_decoded->is_first_operand_register){
+        uint32_t arg = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        uint32_t result = arg + 1;
+        rb->setRegister(modrm_byte_decoded->first_operand_register, result);
+    }
+    else{
+        uint8_t arg;
+        memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg);
+        result = arg + 1;
+        memory->store(modrm_byte_decoded->first_operand_effective_addr, (uint8_t)(result));
+    }
+    setIncFlags(rb, result);  
+}
+
+void incff(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
+    // FF+rd
+    // INC r/m32
+    // decode
+    ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, false, false, REGISTER_32, REGISTER_32});
+    ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
+    
+    printf("inc %s\n",modrm_byte_decoded->decoded_print_string_op1.c_str());
+
+    // execute
+    uint32_t result;
+    if(modrm_byte_decoded->is_first_operand_register){
+        uint32_t arg = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        uint32_t result = arg + 1;
+        rb->setRegister(modrm_byte_decoded->first_operand_register, result);
+    }
+    else{
+        uint32_t arg;
+        memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg);
+        result = arg + 1;
+        memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
+    }
+    setIncFlags(rb, result);  
+}
+
 void inc(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     switch (ins_arg->opcode){
         case 0x40:
@@ -51,8 +101,14 @@ void inc(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory
         case 0x47:
             inc40s(ins_arg, reader, rb, memory);
             break;
+        case 0xfe:
+            incfe(ins_arg, reader, rb, memory);
+            break;
+        case 0xff:
+            incff(ins_arg, reader, rb, memory);
+            break;
         default:
-            printf("Unsupported Add operand\n");
+            printf("Unsupported Inc operand\n");
             break;
     }
 }
