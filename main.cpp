@@ -26,6 +26,12 @@ int main(int argc, char *argv[]){
     std::set<uint32_t, std::greater<uint32_t> > op_mov = { 0x88, 0x8a, 0x8b, 0x89, 0xc6, 0xc7 };
     std::set<uint32_t, std::greater<uint32_t> > op_and = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25 };
     std::set<uint32_t, std::greater<uint32_t> > op_or = { 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D };
+    std::set<uint32_t, std::greater<uint32_t> > op_push = { 
+            0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x0e, 0x16, 0x1e, 0x06, 0x68 
+        };
+    std::set<uint32_t, std::greater<uint32_t> > op_pop = {
+            0x58, 0x59, 0x5a, 0x5b, 0x5c, 0x5d, 0x5e, 0x5f, 0x1f, 0x07, 0x17
+        };
 
     // while(!reader.isEOF()){
     //     uint8_t tmp=reader.readNextByte();
@@ -94,11 +100,16 @@ int main(int argc, char *argv[]){
             and_(arguments, &reader, &rb, &memory);
         } else if(op_or.count(arguments->opcode)) {
             or_(arguments, &reader, &rb, &memory);
-        } else{
-            printf("Opcode: %s is not suporting!\n", intToHexStr(arguments->opcode).c_str());
+        }else if(op_push.count(arguments->opcode)){
+            push(arguments, &reader, &rb, &memory);
         }
-        
-        printf("\nFinished Emulating...\n");
-        break; 
+        else if(op_pop.count(arguments->opcode)){
+            pop(arguments, &reader, &rb, &memory);
+        }
+         else{
+            printf("Opcode: %s is not suporting!\n", intToHexStr(arguments->opcode).c_str());
+        }  
+        // break; 
     }
+    printf("\nFinished Emulating...\n");
 }
