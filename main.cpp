@@ -1,5 +1,6 @@
 #include <iostream>
 #include <set>
+#include "opcode_extension.hpp"
 #include "modmr.hpp"
 #include "reader.hpp"
 #include "utils.hpp"
@@ -22,10 +23,11 @@ int main(int argc, char *argv[]){
     // RegisterBank rb();
     RegisterBank rb = RegisterBank();
 
-    std::set<uint32_t, std::greater<uint32_t> > op_add = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x81, 0x83 };
-    std::set<uint32_t, std::greater<uint32_t> > op_mov = { 0x88, 0x8a, 0x8b, 0x89, 0xc6, 0xc7 };
+    std::set<uint32_t, std::greater<uint32_t> > op_add = { 0x00, 0x01, 0x02, 0x03, 0x04 };
+    std::set<uint32_t, std::greater<uint32_t> > op_mov = { 0x88, 0x8a, 0x8b, 0x89 };
     std::set<uint32_t, std::greater<uint32_t> > op_and = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25 };
     std::set<uint32_t, std::greater<uint32_t> > op_or = { 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D };
+    std::set<uint32_t, std::greater<uint32_t> > opcode_exten = { 0x80, 0x81, 0x82, 0x83, 0xc6, 0xc7 };
 
     // while(!reader.isEOF()){
     //     uint8_t tmp=reader.readNextByte();
@@ -94,8 +96,10 @@ int main(int argc, char *argv[]){
             and_(arguments, &reader, &rb, &memory);
         } else if(op_or.count(arguments->opcode)) {
             or_(arguments, &reader, &rb, &memory);
+        } else if(opcode_exten.count(arguments->opcode)) {
+            mapOpcodeExtendedInstructions(arguments, &reader, &rb, &memory);
         } else{
-            printf("Opcode: %s is not suporting!\n", intToHexStr(arguments->opcode).c_str());
+            printf("Opcode: %s is noopcode_byte_4t suporting!\n", intToHexStr(arguments->opcode).c_str());
         }
         
         printf("\nFinished Emulating...\n");

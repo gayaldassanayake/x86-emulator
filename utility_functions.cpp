@@ -33,3 +33,7 @@ bool findParity(uint32_t x){
    y = y ^ (y >>16);
    return y & 1;
 }
+
+void opcodeExtUnsupportedError(uint8_t opcode) {
+    printf("Opcode: %s is noopcode_byte_4t suporting!\n", intToHexStr(opcode).c_str());
+}
