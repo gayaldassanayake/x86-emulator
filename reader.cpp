@@ -21,3 +21,10 @@ uint8_t Reader::readNextByte(){
 bool Reader::isEOF(){
     return(file.peek() == EOF);
 }
+
+uint8_t Reader::peekNextByte(){
+    int place = file.tellg();
+    uint8_t nextByte = readNextByte();
+    file.seekg(place);
+    return nextByte;
+}

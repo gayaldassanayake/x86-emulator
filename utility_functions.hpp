@@ -17,4 +17,6 @@ uint32_t readDispalcement(Reader *reader, uint32_t disp_bytes);
 
 bool findParity(uint32_t x);
 
+void opcodeExtUnsupportedError(uint8_t opcode);
+
 #endif
