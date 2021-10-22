@@ -28,7 +28,14 @@ int main(int argc, char *argv[]){
     std::set<uint32_t, std::greater<uint32_t> > op_and = { 0x20, 0x21, 0x22, 0x23, 0x24, 0x25 };
     std::set<uint32_t, std::greater<uint32_t> > op_or = { 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D };
     std::set<uint32_t, std::greater<uint32_t> > op_inc = { 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47 };
+    std::set<uint32_t, std::greater<uint32_t> > op_push = { 
+        0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x0e, 0x16, 0x1e, 0x06, 0x68 
+    };
+    std::set<uint32_t, std::greater<uint32_t> > op_pop = {
+            0x58, 0x59, 0x5a, 0x5b, 0x5c, 0x5d, 0x5e, 0x5f, 0x1f, 0x07, 0x17
+        };
     std::set<uint32_t, std::greater<uint32_t> > opcode_exten = { 0x80, 0x81, 0x82, 0x83, 0xc6, 0xc7, 0xfe, 0xff };
+
 
     // while(!reader.isEOF()){
     //     uint8_t tmp=reader.readNextByte();
@@ -99,13 +106,16 @@ int main(int argc, char *argv[]){
             or_(arguments, &reader, &rb, &memory);
         } else if(op_inc.count(arguments->opcode)) {
             inc(arguments, &reader, &rb, &memory);
+        }else if(op_push.count(arguments->opcode)){
+            push(arguments, &reader, &rb, &memory);
+        } else if(op_pop.count(arguments->opcode)){
+            pop(arguments, &reader, &rb, &memory);
         } else if(opcode_exten.count(arguments->opcode)) {
             mapOpcodeExtendedInstructions(arguments, &reader, &rb, &memory);
         } else{
             printf("Opcode: %s is noopcode_byte_4t suporting!\n", intToHexStr(arguments->opcode).c_str());
-        }
-        
-        printf("\nFinished Emulating...\n");
-        break; 
+        }  
+        // break; 
     }
+    printf("\nFinished Emulating...\n");
 }
