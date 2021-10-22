@@ -141,6 +141,87 @@ void sub2d(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     setSubFlags(rb, result);
 }
 
+void sub80(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
+    // 80 /5 ib
+    // SUB r/m8,imm8 MI
+    // Decode
+    ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, false, false, REGISTER_8, REGISTER_8});
+    ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
+
+    uint8_t imm8_byte = readDispalcement(reader, 1);
+
+    printf("sub $%s,%s\n",intToHexStr(imm8_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+
+    uint8_t result;
+    // Execute
+    if(modrm_byte_decoded->is_first_operand_register){
+        uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        result = arg1 - imm8_byte;
+        rb->setRegister(modrm_byte_decoded->first_operand_register, result);
+    }
+    else{
+        uint8_t arg1;
+        memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg1);
+        result = arg1 - imm8_byte;
+        memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
+    }
+    setSubFlags(rb, result);
+}
+
+void sub81(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
+    // 81 /5 id
+    // SUB r/m32,imm32 MI
+    // Decode
+    ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, false, false, REGISTER_32, REGISTER_32});
+    ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
+
+    uint32_t imm32_byte = readDispalcement(reader, 4);
+
+    printf("sub $%s,%s\n",intToHexStr(imm32_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+
+    uint32_t result;
+    // Execute
+    if(modrm_byte_decoded->is_first_operand_register){
+        uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        result = arg1 - imm32_byte;
+        rb->setRegister(modrm_byte_decoded->first_operand_register, result);
+    }
+    else{
+        uint32_t arg1;
+        memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg1);
+        result = arg1 - imm32_byte;
+        memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
+    }
+    setSubFlags(rb, result);
+}
+
+void sub83(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
+    // 83 /5 ib
+    // SUB r/m32,imm8 MI
+    // Decode
+    ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, false, false, REGISTER_32, REGISTER_32});
+    ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
+
+    uint32_t imm8_byte = readDispalcement(reader, 1);
+
+    printf("sub $%s,%s\n",intToHexStr(imm8_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+
+    uint32_t result;
+    // Execute
+    if(modrm_byte_decoded->is_first_operand_register){
+        uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        result = arg1 - imm8_byte;
+        rb->setRegister(modrm_byte_decoded->first_operand_register, result);
+    }
+    else{
+        uint32_t arg1;
+        memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg1);
+        result = arg1 - imm8_byte;
+        memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
+    }
+    setSubFlags(rb, result);
+}
+
 void sub(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     switch (ins_arg->opcode){
         case 0x28:
@@ -160,6 +241,15 @@ void sub(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory
             break;
         case 0x2d:
             sub2d(ins_arg, reader, rb, memory);
+            break;
+        case 0x80:
+            sub80(ins_arg, reader, rb, memory);
+            break;
+        case 0x81:
+            sub81(ins_arg, reader, rb, memory);
+            break;
+        case 0x83:
+            sub83(ins_arg, reader, rb, memory);
             break;
         default:
             printf("Unsupported Sub operand\n");

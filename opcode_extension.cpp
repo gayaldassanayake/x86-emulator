@@ -22,6 +22,8 @@ void mapOpcodeExtendedInstructions(InstructionArguments *ins_arg, Reader *reader
                     case 4:
                         and_(ins_arg, reader, rb, memory);
                         break;
+                    case 5:
+                        sub(ins_arg, reader, rb, memory);
                     default:
                         opcodeExtUnsupportedError(ins_arg->opcode);
                         break;
