@@ -23,6 +23,7 @@ SibDecodeOutputArguments* decodeSIBByte(SibDecodeInputArguments* inputs, Reader 
     if(index == 4){
         scale_register = "none";
     }
+    string decoded_print_string_op1 = "";
 
     // Decode scale index
     if(index == 4){
@@ -30,32 +31,32 @@ SibDecodeOutputArguments* decodeSIBByte(SibDecodeInputArguments* inputs, Reader 
     }
     else{
         output->effective_addr = rb->getRegister(scale_register) * (1 << scale);
-        output->decoded_print_string = intToHexStr(1<<scale) + "(%" + scale_register + ")";
+        decoded_print_string_op1 = "%"+scale_register;
     }
     
     // Add base register
     if (base == 5){ // special case [*]
         if(mod == 0){
             uint32_t displacement = readDispalcement(reader, 4);
-            output->effective_addr += displacement;
-            output->decoded_print_string += intToHexStr(displacement);
+            output->effective_addr += displacement; 
+            output->decoded_print_string = "("+intToHexStr(displacement)+"("+decoded_print_string_op1+"))";
         }
         else if(mod == 1){
             uint32_t displacement = readDispalcement(reader, 1);
             output->effective_addr += displacement;
             output->effective_addr += rb->getRegister("EBP");
-            output->decoded_print_string += intToHexStr(displacement) + " (%EBP)";
+            output->decoded_print_string = "("+intToHexStr(displacement) + "(%EBP,"+decoded_print_string_op1+"))";
         }
         else if(mod == 2){
             uint32_t displacement = readDispalcement(reader, 4);
             output->effective_addr += displacement;
             output->effective_addr += rb->getRegister("EBP");
-            output->decoded_print_string += intToHexStr(displacement) + " (%EBP)";
+            output->decoded_print_string = "("+intToHexStr(displacement) + "(%EBP,"+decoded_print_string_op1+"))";
         }
     }
     else{
         output->effective_addr += rb->getRegister(base_register);
-        output->decoded_print_string += " (%" + base_register +")";
+        output->decoded_print_string = "(%"+base_register+","+decoded_print_string_op1+ "," +std::to_string(1<<scale)+")";
     }
 
     return output;
