@@ -3,4 +3,5 @@
 #include "and.hpp"
 #include "or.hpp"
 #include "inc.hpp"
+#include "dec.hpp"
 #include "push_pop.hpp"
