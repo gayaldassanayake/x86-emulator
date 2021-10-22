@@ -29,6 +29,7 @@ int main(int argc, char *argv[]){
     std::set<uint32_t, std::greater<uint32_t> > op_or = { 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d };
     std::set<uint32_t, std::greater<uint32_t> > op_inc = { 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47 };
     std::set<uint32_t, std::greater<uint32_t> > op_dec = { 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f };
+    std::set<uint32_t, std::greater<uint32_t> > op_sub = { 0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d };
     std::set<uint32_t, std::greater<uint32_t> > op_push = { 
         0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x0e, 0x16, 0x1e, 0x06, 0x68 
     };
@@ -113,6 +114,8 @@ int main(int argc, char *argv[]){
             push(arguments, &reader, &rb, &memory);
         } else if(op_pop.count(arguments->opcode)){
             pop(arguments, &reader, &rb, &memory);
+        } else if(op_sub.count(arguments->opcode)){
+            sub(arguments, &reader, &rb, &memory);
         } else if(opcode_exten.count(arguments->opcode)) {
             mapOpcodeExtendedInstructions(arguments, &reader, &rb, &memory);
         } else{
