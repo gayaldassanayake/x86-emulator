@@ -4,3 +4,4 @@
 #include "or.hpp"
 #include "push_pop.hpp"
 #include "test.hpp"
+#include "cmp.hpp"
