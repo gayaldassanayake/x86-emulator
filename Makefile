@@ -2,10 +2,10 @@ CC = g++
 CPPFLAGS = -g -Wall
 CXXFLAGS = -std=c++11
 
-main: main.o opcode_extension.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o opcodes/inc.o opcodes/dec.o opcodes/sub.o sib.o utility_functions.o push_pop.o
-	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o opcode_extension.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o opcodes/inc.o opcodes/dec.o opcodes/sub.o sib.o utility_functions.o push_pop.o
+main: main.o opcode_extension.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o opcodes/inc.o opcodes/dec.o opcodes/sub.o sib.o utility_functions.o push_pop.o test.o cmp.o utility_flag_set.o
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o opcode_extension.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o opcodes/inc.o opcodes/dec.o opcodes/sub.o sib.o utility_functions.o push_pop.o test.o cmp.o utility_flag_set.o
 
-main.o: main.cpp opcode_extension.hpp modmr.hpp reader.hpp memory.hpp register.hpp opcodes/add.hpp opcodes/mov.hpp opcodes/and.hpp opcodes/or.hpp opcodes/inc.hpp opcodes/dec.hpp opcodes/sub.hpp sib.hpp utility_functions.hpp opcodes/push_pop.hpp
+main.o: main.cpp opcode_extension.hpp modmr.hpp reader.hpp memory.hpp register.hpp opcodes/add.hpp opcodes/mov.hpp opcodes/and.hpp opcodes/or.hpp opcodes/inc.hpp opcodes/dec.hpp opcodes/sub.hpp sib.hpp utility_functions.hpp opcodes/push_pop.hpp opcodes/test.hpp opcodes/cmp.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c main.cpp
 
 opcode_extension.o: opcode_extension.hpp opcode_extension.cpp utility_functions.hpp
@@ -28,6 +28,9 @@ utility_functions.o: utility_functions.hpp utility_functions.cpp reader.hpp
 
 reader.o: reader.hpp reader.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c reader.cpp
+
+utility_flag_set.o: utility_flag_set.hpp utility_flag_set.cpp register.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c utility_flag_set.cpp
 
 add.o: opcodes/add.hpp opcodes/add.cpp ../utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/add.cpp
@@ -52,6 +55,12 @@ sub.o: opcodes/sub.hpp opcodes/sub.cpp ../utility_functions.hpp
 
 push_pop.o: opcodes/push_pop.hpp opcodes/push_pop.cpp utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/push_pop.cpp
+
+test.o: opcodes/test.hpp opcodes/test.cpp utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/test.cpp
+
+cmp.o: opcodes/cmp.hpp opcodes/cmp.cpp utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/cmp.cpp
 
 clean: 
 	$(RM) decode.out *.o

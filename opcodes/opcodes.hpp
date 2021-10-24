@@ -5,4 +5,6 @@
 #include "inc.hpp"
 #include "dec.hpp"
 #include "push_pop.hpp"
+#include "test.hpp"
+#include "cmp.hpp"
 #include "sub.hpp"
