@@ -20,14 +20,14 @@ sib.o: sib.hpp sib.cpp utility_functions.hpp
 memory.o: memory.hpp memory.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c memory.cpp
 
+register.o: register.hpp register.cpp utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c register.cpp
+
 utility_functions.o: utility_functions.hpp utility_functions.cpp reader.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c utility_functions.cpp
 
 reader.o: reader.hpp reader.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c reader.cpp
-
-register.o: register.hpp register.cpp
-	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c register.cpp
 
 add.o: opcodes/add.hpp opcodes/add.cpp ../utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/add.cpp

@@ -123,5 +123,6 @@ int main(int argc, char *argv[]){
         }  
         // break; 
     }
+    rb.getRegisterDump();
     printf("\nFinished Emulating...\n");
 }
