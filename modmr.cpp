@@ -57,7 +57,7 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                 SibDecodeOutputArguments *sib_outputs = decodeSIBByte(sib_inputs, reader, rb);
 
                 output->first_operand_effective_addr = sib_outputs->effective_addr;
-                output->decoded_print_string_op1 = "SIB[ " + sib_outputs->decoded_print_string +  "]";
+                output->decoded_print_string_op1 = sib_outputs->decoded_print_string;            
             }
             else if(rm == 5){
                 // "disp32";
@@ -80,11 +80,11 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                 SibDecodeOutputArguments *sib_outputs = decodeSIBByte(sib_inputs, reader, rb);
 
                 output->first_operand_effective_addr = sib_outputs->effective_addr;
-                output->decoded_print_string_op1 = "SIB[ " + sib_outputs->decoded_print_string +  "]";
 
                 uint32_t displacement = readDispalcement(reader, 1);
                 output->first_operand_effective_addr += displacement;
-                output->decoded_print_string_op1 += " " + intToHexStr(displacement);
+                output->decoded_print_string_op1 = intToHexStr(displacement);
+                output->decoded_print_string_op1 += sib_outputs->decoded_print_string;
             }
             else{
                 uint32_t displacement = readDispalcement(reader, 1);
@@ -103,11 +103,11 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                 SibDecodeOutputArguments *sib_outputs = decodeSIBByte(sib_inputs, reader, rb);
 
                 output->first_operand_effective_addr = sib_outputs->effective_addr;
-                output->decoded_print_string_op1 = "SIB[ " + sib_outputs->decoded_print_string +  "]";
 
                 uint32_t displacement = readDispalcement(reader, 4);
                 output->first_operand_effective_addr += displacement;
-                output->decoded_print_string_op1 += " " + intToHexStr(displacement);
+                output->decoded_print_string_op1 = intToHexStr(displacement);
+                output->decoded_print_string_op1 += sib_outputs->decoded_print_string;
             }
             else{
                 uint32_t displacement = readDispalcement(reader, 4);
@@ -174,7 +174,7 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                     SibDecodeOutputArguments *sib_outputs = decodeSIBByte(sib_inputs, reader, rb);
 
                     output->second_operand_effective_addr = sib_outputs->effective_addr;
-                    output->decoded_print_string_op2 = "SIB[ " + sib_outputs->decoded_print_string +  "]";
+                    output->decoded_print_string_op1 = sib_outputs->decoded_print_string;
                 }
                 else if(rm == 5){
                     // "disp32";
@@ -198,11 +198,11 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                     SibDecodeOutputArguments *sib_outputs = decodeSIBByte(sib_inputs, reader, rb);
 
                     output->second_operand_effective_addr = sib_outputs->effective_addr;
-                    output->decoded_print_string_op2 = "SIB[ " + sib_outputs->decoded_print_string +  "]";
 
                     uint32_t displacement = readDispalcement(reader, 1);
                     output->second_operand_effective_addr += displacement;
-                    output->decoded_print_string_op2 += " " + intToHexStr(displacement);
+                    output->decoded_print_string_op1 = intToHexStr(displacement);
+                    output->decoded_print_string_op1 += sib_outputs->decoded_print_string;                
                 }
                 else{
                     uint32_t displacement = readDispalcement(reader, 1);
@@ -221,11 +221,11 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                     SibDecodeOutputArguments *sib_outputs = decodeSIBByte(sib_inputs, reader, rb);
 
                     output->second_operand_effective_addr = sib_outputs->effective_addr;
-                    output->decoded_print_string_op2 = "SIB[ " + sib_outputs->decoded_print_string +  "]";
 
                     uint32_t displacement = readDispalcement(reader, 4);
                     output->second_operand_effective_addr += displacement;
-                    output->decoded_print_string_op2 += " " + intToHexStr(displacement);
+                    output->decoded_print_string_op1 = intToHexStr(displacement);
+                    output->decoded_print_string_op1 += sib_outputs->decoded_print_string;                
                 }
                 else{
                     uint32_t displacement = readDispalcement(reader, 4);

@@ -1,5 +1,9 @@
-#include "register.hpp"
 #include <iostream>
+#include "register.hpp"
+#include "utility_functions.hpp"
+
+using std::cout;
+using std::fstream;
 
 uint32_t MASK16 = 65535;
 uint32_t MASK8 = 255;
@@ -271,4 +275,48 @@ void RegisterBank::initializeRegisters() {
     setRegister("FS",  hexToInt("0x00000300"));
     setRegister("GS",  hexToInt("0x00000320"));
     setRegister("EFLAGS", hexToInt("0x00000246"));
+}
+
+void RegisterBank::getRegisterDump() {
+    fstream file;
+    file.open("register_dump.out",fstream::out);
+
+    print(cout, file, "\n****Register Dump*****\n");
+    print(cout, file, "EAX   | " + intToHexFmtStr(registers["EAX"]->value, 32) + " | " + intToBinFmtStr(registers["EAX"]->value, 32) + "\n");
+    print(cout, file, "AX    | " + intToHexFmtStr(registers["AX"]->value, 16) + " | " + intToBinFmtStr(registers["AX"]->value, 16) + "\n");
+    print(cout, file, "AH    | " + intToHexFmtStr(registers["AH"]->value, 8) + " | " + intToBinFmtStr(registers["AH"]->value, 8) + "\n");
+    print(cout, file, "AL    | " + intToHexFmtStr(registers["AL"]->value, 8) + " | " + intToBinFmtStr(registers["AL"]->value, 8) + "\n");
+
+    print(cout, file, "EBX   | " + intToHexFmtStr(registers["EBX"]->value, 32) + " | " + intToBinFmtStr(registers["EBX"]->value, 32) + "\n");
+    print(cout, file, "BX    | " + intToHexFmtStr(registers["BX"]->value, 16) + " | " + intToBinFmtStr(registers["BX"]->value, 16) + "\n");
+    print(cout, file, "BH    | " + intToHexFmtStr(registers["BH"]->value, 8) + " | " + intToBinFmtStr(registers["BH"]->value, 8) + "\n");
+    print(cout, file, "BL    | " + intToHexFmtStr(registers["BL"]->value, 8) + " | " + intToBinFmtStr(registers["BL"]->value, 8) + "\n");
+
+    print(cout, file, "ECX   | " + intToHexFmtStr(registers["ECX"]->value, 32) + " | " + intToBinFmtStr(registers["ECX"]->value, 32) + "\n");
+    print(cout, file, "CX    | " + intToHexFmtStr(registers["CX"]->value, 16) + " | " + intToBinFmtStr(registers["CX"]->value, 16) + "\n");
+    print(cout, file, "CH    | " + intToHexFmtStr(registers["CH"]->value, 8) + " | " + intToBinFmtStr(registers["CH"]->value, 8) + "\n");
+    print(cout, file, "CL    | " + intToHexFmtStr(registers["CL"]->value, 8) + " | " + intToBinFmtStr(registers["CL"]->value, 8) + "\n");
+
+    print(cout, file, "EDX   | " + intToHexFmtStr(registers["EDX"]->value, 32) + " | " + intToBinFmtStr(registers["EDX"]->value, 32) + "\n");
+    print(cout, file, "DX    | " + intToHexFmtStr(registers["DX"]->value, 16) + " | " + intToBinFmtStr(registers["DX"]->value, 16) + "\n");
+    print(cout, file, "DH    | " + intToHexFmtStr(registers["DH"]->value, 8) + " | " + intToBinFmtStr(registers["DH"]->value, 8) + "\n");
+    print(cout, file, "DL    | " + intToHexFmtStr(registers["DL"]->value, 8) + " | " + intToBinFmtStr(registers["DL"]->value, 8) + "\n");
+
+    print(cout, file, "ESP   | " + intToHexFmtStr(registers["ESP"]->value, 32) + " | " + intToBinFmtStr(registers["ESP"]->value, 32) + "\n");
+    print(cout, file, "SP    | " + intToHexFmtStr(registers["SP"]->value, 16) + " | " + intToBinFmtStr(registers["SP"]->value, 16) + "\n");
+
+    print(cout, file, "EBP   | " + intToHexFmtStr(registers["EBP"]->value, 32) + " | " + intToBinFmtStr(registers["EBP"]->value, 32) + "\n");
+    print(cout, file, "BP    | " + intToHexFmtStr(registers["BP"]->value, 16) + " | " + intToBinFmtStr(registers["BP"]->value, 16) + "\n");
+
+    print(cout, file, "ESI   | " + intToHexFmtStr(registers["ESI"]->value, 32) + " | " + intToBinFmtStr(registers["ESI"]->value, 32) + "\n");
+    print(cout, file, "SI    | " + intToHexFmtStr(registers["SI"]->value, 16) + " | " + intToBinFmtStr(registers["SI"]->value, 16) + "\n");
+
+    print(cout, file, "EDI   | " + intToHexFmtStr(registers["EDI"]->value, 32) + " | " + intToBinFmtStr(registers["EDI"]->value, 32) + "\n");
+    print(cout, file, "DI    | " + intToHexFmtStr(registers["DI"]->value, 16) + " | " + intToBinFmtStr(registers["DI"]->value, 16) + "\n");
+
+    print(cout, file, "EIP   | " + intToHexFmtStr(registers["EIP"]->value, 32) + " | " + intToBinFmtStr(registers["EIP"]->value, 32) + "\n");
+    print(cout, file, "IP    | " + intToHexFmtStr(registers["IP"]->value, 16) + " | " + intToBinFmtStr(registers["IP"]->value, 16) + "\n");
+
+    print(cout, file, "EFLAGS| " + intToHexFmtStr(registers["EFLAGS"]->value, 32) + " | " + intToBinFmtStr(registers["EFLAGS"]->value, 32) + "\n");
+
 }

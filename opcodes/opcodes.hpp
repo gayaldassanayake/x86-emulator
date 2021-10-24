@@ -2,4 +2,7 @@
 #include "mov.hpp"
 #include "and.hpp"
 #include "or.hpp"
+#include "inc.hpp"
+#include "dec.hpp"
 #include "push_pop.hpp"
+#include "sub.hpp"
