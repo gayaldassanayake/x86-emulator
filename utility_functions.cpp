@@ -1,5 +1,38 @@
 #include "utility_functions.hpp"
 
+string intToBinFmtStr(uint32_t num, int width){
+    std::bitset<8> bin(num);
+    int zeros = width - bin.to_string().size();
+    int spaces = 32 - width;
+    string prefix="";
+    for(int i=0;i<spaces;i++){
+        prefix += " ";
+    }
+    prefix += "0b";
+    for(int i=0;i<zeros;i++){
+        prefix += "0";
+    }
+    string bin_str = prefix + bin.to_string();
+    return bin_str;
+}
+
+string intToHexFmtStr(uint32_t num, int width){
+    std::stringstream sstream;
+    sstream << std::hex << num;
+    int zeros = width/4.0 - sstream.str().size();
+    int spaces = 8 - width/4.0;
+    string prefix="";
+    for(int i=0;i<spaces;i++){
+        prefix += " ";
+    }
+    prefix += "0x";
+    for(int i=0;i<zeros;i++){
+        prefix += "0";
+    }
+    string hex_str = prefix + sstream.str();
+    return hex_str;
+}
+
 string intToHexStr(uint32_t num){
     std::stringstream sstream;
     sstream << std::hex << num;
@@ -24,6 +57,7 @@ uint32_t readDispalcement(Reader *reader, uint32_t disp_bytes){
     return displacement;
 }
 
+// source: https://stackoverflow.com/questions/17350906/computing-the-parity
 bool findParity(uint32_t x){
    uint32_t y;
    y = x ^ (x >> 1);
@@ -36,4 +70,9 @@ bool findParity(uint32_t x){
 
 void opcodeExtUnsupportedError(uint8_t opcode) {
     printf("Opcode: %s is noopcode_byte_4t suporting!\n", intToHexStr(opcode).c_str());
+}
+
+void print(ostream &os1, ostream &os2, const string &str) {
+    os1 << str;
+    os2 << str;
 }

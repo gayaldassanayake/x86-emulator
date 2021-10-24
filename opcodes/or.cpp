@@ -20,10 +20,7 @@ void or0c(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memor
 
     // Execute
     uint8_t arg1 = rb->getRegister(reg_name);
-    // cout<<"imm_value:"<<std::hex<<(uint32_t)imm8_byte<<endl;
-    // cout<<"reg_value:"<<std::hex<<(uint32_t)arg1<<endl;
     uint8_t ans = arg1 | imm8_byte;
-    // cout<<"ans:"<<std::hex<<(uint32_t)ans<<endl;
     rb->setRegister(reg_name, ans);
     
     setOrFlags(rb, ans);
@@ -40,12 +37,8 @@ void or0d(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memor
 
     // Execute
     uint32_t arg1 = rb->getRegister(reg_name);
-    // cout<<"imm_value:"<<std::hex<<(uint32_t)imm32_byte<<endl;
-    // cout<<"reg_value:"<<std::hex<<(uint32_t)arg1<<endl;
     uint32_t ans = arg1 | imm32_byte;
-    // cout<<"ans:"<<std::hex<<(uint32_t)ans<<endl;
     rb->setRegister(reg_name, ans);
-    // cout<<"result:"<<std::hex<<rb->getRegister(reg_name)<<endl;
     setOrFlags(rb, ans);
 }
 

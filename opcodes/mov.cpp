@@ -29,14 +29,10 @@ void mov89(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
 
     // Execute
     uint32_t arg = rb->getRegister(modrm_byte_decoded->second_operand_register);
-    // cout<<"copying register value:"<<std::hex<<arg<<endl;
     if(modrm_byte_decoded->is_first_operand_register) {
         rb->setRegister(modrm_byte_decoded->first_operand_register, arg);
-        // cout<<"copyied register value:"<<std::hex<<rb->getRegister(modrm_byte_decoded->first_operand_register)<<endl;
     } else {
         memory->store(modrm_byte_decoded->first_operand_effective_addr, arg);
-        // memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg);
-        // cout<<"copyied memory value:"<<std::hex<<arg<<endl;
     }
 }
 
@@ -53,13 +49,10 @@ void mov8a(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     uint8_t arg;
     if(modrm_byte_decoded->is_second_operand_register) {
         arg = (uint8_t)rb->getRegister(modrm_byte_decoded->second_operand_register);
-        // cout<<"copying register value:"<<std::hex<<arg<<endl;
     } else {
         memory->read(modrm_byte_decoded->second_operand_effective_addr, &arg); // read 1 byte
-        // cout<<"copying memory value:"<<std::hex<<arg<<endl;
     }
     rb->setRegister(modrm_byte_decoded->first_operand_register, (uint32_t)arg);
-    // cout<<"copyied register value:"<<std::hex<<rb->getRegister(modrm_byte_decoded->first_operand_register)<<endl;
 }
 
 void mov8b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
@@ -75,13 +68,10 @@ void mov8b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     uint32_t arg;
     if(modrm_byte_decoded->is_second_operand_register) {
         arg = rb->getRegister(modrm_byte_decoded->second_operand_register);
-        // cout<<"copying register value:"<<std::hex<<arg<<endl;
     } else {
         memory->read(modrm_byte_decoded->second_operand_effective_addr, &arg); // read 4 bytes
-        // cout<<"copying memory value:"<<std::hex<<arg<<endl;
     }
     rb->setRegister(modrm_byte_decoded->first_operand_register, arg);
-    // cout<<"copyied register value:"<<std::hex<<rb->getRegister(modrm_byte_decoded->first_operand_register)<<endl;
 }
 
 void movc6(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){

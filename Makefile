@@ -2,10 +2,10 @@ CC = g++
 CPPFLAGS = -g -Wall
 CXXFLAGS = -std=c++11
 
-main: main.o opcode_extension.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o sib.o utility_functions.o push_pop.o test.o cmp.o utility_flag_set.o
-	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o opcode_extension.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o sib.o utility_functions.o push_pop.o test.o cmp.o utility_flag_set.o
+main: main.o opcode_extension.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o opcodes/inc.o opcodes/dec.o opcodes/sub.o sib.o utility_functions.o push_pop.o test.o cmp.o utility_flag_set.o
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -o decode.out main.o opcode_extension.o modmr.o reader.o memory.o register.o opcodes/add.o opcodes/mov.o opcodes/and.o opcodes/or.o opcodes/inc.o opcodes/dec.o opcodes/sub.o sib.o utility_functions.o push_pop.o test.o cmp.o utility_flag_set.o
 
-main.o: main.cpp opcode_extension.hpp modmr.hpp reader.hpp memory.hpp register.hpp opcodes/add.hpp opcodes/mov.hpp opcodes/and.hpp opcodes/or.hpp sib.hpp utility_functions.hpp opcodes/push_pop.hpp opcodes/test.hpp opcodes/cmp.hpp utility_flag_set.hpp
+main.o: main.cpp opcode_extension.hpp modmr.hpp reader.hpp memory.hpp register.hpp opcodes/add.hpp opcodes/mov.hpp opcodes/and.hpp opcodes/or.hpp opcodes/inc.hpp opcodes/dec.hpp opcodes/sub.hpp sib.hpp utility_functions.hpp opcodes/push_pop.hpp opcodes/test.hpp opcodes/cmp.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c main.cpp
 
 opcode_extension.o: opcode_extension.hpp opcode_extension.cpp utility_functions.hpp
@@ -20,14 +20,14 @@ sib.o: sib.hpp sib.cpp utility_functions.hpp
 memory.o: memory.hpp memory.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c memory.cpp
 
+register.o: register.hpp register.cpp utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c register.cpp
+
 utility_functions.o: utility_functions.hpp utility_functions.cpp reader.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c utility_functions.cpp
 
 reader.o: reader.hpp reader.cpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c reader.cpp
-
-register.o: register.hpp register.cpp
-	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c register.cpp
 
 utility_flag_set.o: utility_flag_set.hpp utility_flag_set.cpp register.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c utility_flag_set.cpp
@@ -43,6 +43,15 @@ and.o: opcodes/and.hpp opcodes/and.cpp ../utility_functions.hpp
 
 or.o: opcodes/or.hpp opcodes/or.cpp ../utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/or.cpp
+
+inc.o: opcodes/inc.hpp opcodes/inc.cpp ../utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/inc.cpp
+
+dec.o: opcodes/dec.hpp opcodes/dec.cpp ../utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/dec.cpp
+
+sub.o: opcodes/sub.hpp opcodes/sub.cpp ../utility_functions.hpp
+	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/sub.cpp
 
 push_pop.o: opcodes/push_pop.hpp opcodes/push_pop.cpp utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/push_pop.cpp

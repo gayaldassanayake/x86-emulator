@@ -67,6 +67,7 @@ class RegisterBank {
         uint32_t getRegister(string name);
         void setFlag(string name, int value);
         int getFlag(string name);
+        void getRegisterDump();
 };
 
 #endif
