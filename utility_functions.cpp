@@ -24,6 +24,7 @@ uint32_t readDispalcement(Reader *reader, uint32_t disp_bytes){
     return displacement;
 }
 
+// https://stackoverflow.com/questions/17350906/computing-the-parity
 bool findParity(uint32_t x){
    uint32_t y;
    y = x ^ (x >> 1);
