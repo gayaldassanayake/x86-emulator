@@ -1,0 +1,1 @@
+sub $0x38fffff2,%EAX

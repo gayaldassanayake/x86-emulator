@@ -242,46 +242,46 @@ int RegisterBank::getFlag(string name){
 void RegisterBank::initializeRegisters() {
     // TODO: Arrange memory to assign the commented values
 
-    // setRegister("EAX", hexToInt("0xbf8db144"));
-    // setRegister("EBX", hexToInt("0x00ae5ff4"));
-    // setRegister("ECX", hexToInt("0x88c5cffb"));
-    // setRegister("EDX", hexToInt("0x000000x1"));
-    // setRegister("ESP", hexToInt("0xbf8db0bc"));
-    // setRegister("EBP", hexToInt("0xbf8db118"));
-    // setRegister("ESI", hexToInt("0x009a0ca0"));
-    // setRegister("EDI", hexToInt("0x00000000"));
-    // setRegister("EIP", hexToInt("0x08048354"));
-    // setRegister("CS",  hexToInt("0x00000073"));
-    // setRegister("SS",  hexToInt("0x0000007b"));
-    // setRegister("DS",  hexToInt("0x0000007b"));
-    // setRegister("ES",  hexToInt("0x0000007b"));
-    // setRegister("FS",  hexToInt("0x00000000"));
-    // setRegister("GS",  hexToInt("0x00000033"));
-    // setRegister("EFLAGS", hexToInt("0x00000246"));
-    
-    setRegister("EAX", hexToInt("0x00000330")); // 816 1100110000
-    setRegister("EBX", hexToInt("0x00000020")); // 32  0000100000
-    setRegister("ECX", hexToInt("0x00000040")); // 64  0001000000
-    setRegister("EDX", hexToInt("0x00000060")); // 96  0001100000
-    setRegister("ESP", hexToInt("0x00000080")); // 128 0010000000
-    setRegister("EBP", hexToInt("0x00000100")); // 256 0100000000
-    setRegister("ESI", hexToInt("0x00000120")); // 288 0100100000
-    setRegister("EDI", hexToInt("0x00000140")); // 320 0101000000
-    setRegister("EIP", hexToInt("0x00000160")); // 352 0101100000
-    setRegister("CS",  hexToInt("0x00000180"));
-    setRegister("SS",  hexToInt("0x00000200"));
-    setRegister("DS",  hexToInt("0x00000220"));
-    setRegister("ES",  hexToInt("0x00000280"));
-    setRegister("FS",  hexToInt("0x00000300"));
-    setRegister("GS",  hexToInt("0x00000320"));
+    setRegister("EAX", hexToInt("0xbf8db144"));
+    setRegister("EBX", hexToInt("0x00ae5ff4"));
+    setRegister("ECX", hexToInt("0x88c5cffb"));
+    setRegister("EDX", hexToInt("0x000000x1"));
+    setRegister("ESP", hexToInt("0xbf8db0bc"));
+    setRegister("EBP", hexToInt("0xbf8db118"));
+    setRegister("ESI", hexToInt("0x009a0ca0"));
+    setRegister("EDI", hexToInt("0x00000000"));
+    setRegister("EIP", hexToInt("0x08048354"));
+    setRegister("CS",  hexToInt("0x00000073"));
+    setRegister("SS",  hexToInt("0x0000007b"));
+    setRegister("DS",  hexToInt("0x0000007b"));
+    setRegister("ES",  hexToInt("0x0000007b"));
+    setRegister("FS",  hexToInt("0x00000000"));
+    setRegister("GS",  hexToInt("0x00000033"));
     setRegister("EFLAGS", hexToInt("0x00000246"));
+    
+    // setRegister("EAX", hexToInt("0x00000330")); // 816 1100110000
+    // setRegister("EBX", hexToInt("0x00000020")); // 32  0000100000
+    // setRegister("ECX", hexToInt("0x00000040")); // 64  0001000000
+    // setRegister("EDX", hexToInt("0x00000060")); // 96  0001100000
+    // setRegister("ESP", hexToInt("0x00000080")); // 128 0010000000
+    // setRegister("EBP", hexToInt("0x00000100")); // 256 0100000000
+    // setRegister("ESI", hexToInt("0x00000120")); // 288 0100100000
+    // setRegister("EDI", hexToInt("0x00000140")); // 320 0101000000
+    // setRegister("EIP", hexToInt("0x00000160")); // 352 0101100000
+    // setRegister("CS",  hexToInt("0x00000180"));
+    // setRegister("SS",  hexToInt("0x00000200"));
+    // setRegister("DS",  hexToInt("0x00000220"));
+    // setRegister("ES",  hexToInt("0x00000280"));
+    // setRegister("FS",  hexToInt("0x00000300"));
+    // setRegister("GS",  hexToInt("0x00000320"));
+    // setRegister("EFLAGS", hexToInt("0x00000246"));
 }
 
 void RegisterBank::getRegisterDump() {
     fstream file;
     file.open("register_dump.out",fstream::out);
 
-    print(cout, file, "\n****Register Dump*****\n");
+    print(cout, file, "\n******* Register Dump *******\n");
     print(cout,file,"\n");
     print(cout, file, "| Register |  Hex Value |                       Binary Value |\n");
     print(cout, file, "|----------|------------|------------------------------------|\n");
@@ -321,7 +321,7 @@ void RegisterBank::getRegisterDump() {
     print(cout, file, "| IP       | " + intToHexFmtStr(registers["IP"]->value, 16) + " | " + intToBinFmtStr(registers["IP"]->value, 16) + " |\n");
     print(cout, file, "| EFLAGS   | " + intToHexFmtStr(registers["EFLAGS"]->value, 32) + " | " + intToBinFmtStr(registers["EFLAGS"]->value, 32) + " |\n");
 
-    print(cout, file, "\n****Flag Dump*****\n");
+    print(cout, file, "\n******* Flag Dump *******\n");
     print(cout, file, "\n");
     print(cout, file, "Flag | Description                    | Value |\n");
     print(cout, file, "-----|--------------------------------|-------|\n");

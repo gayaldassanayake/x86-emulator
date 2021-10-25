@@ -1,14 +1,7 @@
 #include <map>
 #include "sub.hpp"
 #include "../utility_functions.hpp"
-
-void setSubFlags(RegisterBank *rb, uint32_t result){
-    // OF, SF-1, ZF-1, AF, PF-1, and CF
-    // rb->setFlag("OF",0);
-    rb->setFlag("SF", result>>31);
-    rb->setFlag("ZF", result==0);
-    rb->setFlag("PF", findParity(result));
-}
+#include "../utility_flag_set.hpp"
 
 void sub28(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     // 28/r
@@ -26,6 +19,7 @@ void sub28(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
         uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
         result = arg1-arg2;
         rb->setRegister(modrm_byte_decoded->first_operand_register, (arg1 - arg2));
+        setFlagsSub(arg1, arg2, result, 7, rb);
     }
     else{
         uint8_t arg1;
@@ -33,8 +27,8 @@ void sub28(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
         uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
         result = arg1-arg2;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, (uint8_t)result);
+        setFlagsSub(arg1, arg2, result, 7, rb);
     }
-    setSubFlags(rb, result);
 }
 
 void sub29(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
@@ -47,21 +41,20 @@ void sub29(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     printf("sub %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
-    uint32_t result;
+    uint32_t result, arg1, arg2;
     if(modrm_byte_decoded->is_first_operand_register){
-        uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
-        uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
+        arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
         result = arg1-arg2;
         rb->setRegister(modrm_byte_decoded->first_operand_register, result);
     }
     else{
-        uint32_t arg1;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg1);
-        uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
+        arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
         result = arg1-arg2;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
     }
-    setSubFlags(rb, result);
+    setFlagsSub(arg1, arg2, result, 31, rb);
 }
 
 void sub2a(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
@@ -79,14 +72,15 @@ void sub2a(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
         uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
         uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
         result = arg1-arg2;
+        setFlagsSub(arg1, arg2, result, 7, rb);
     } else{
         uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
         uint8_t arg2;
         memory->read(modrm_byte_decoded->second_operand_effective_addr, &arg2); // read 1 byte
         result = arg1-arg2;
+        setFlagsSub(arg1, arg2, result, 7, rb);
     }
     rb->setRegister(modrm_byte_decoded->first_operand_register, result);
-    setSubFlags(rb, result);
 }
 void sub2b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     // 2b/r
@@ -98,19 +92,18 @@ void sub2b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     printf("sub %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
-    uint32_t result;
+    uint32_t result, arg1, arg2;
     if(modrm_byte_decoded->is_second_operand_register){
-        uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
-        uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
+        arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
         result = arg1-arg2;
     } else{
-        uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
-        uint32_t arg2;
+        arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
         memory->read(modrm_byte_decoded->second_operand_effective_addr, &arg2); // read 4 byte
         result = arg1-arg2;
     }
     rb->setRegister(modrm_byte_decoded->first_operand_register, result);
-    setSubFlags(rb, result);
+    setFlagsSub(arg1, arg2, result, 31, rb);
 }
 void sub2c(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     // 2c ib
@@ -124,7 +117,7 @@ void sub2c(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     uint8_t arg1 = rb->getRegister("AL");
     uint8_t result = arg1 - imm8_byte;
     rb->setRegister("AL", result);
-    setSubFlags(rb, result);
+    setFlagsSub(arg1, imm8_byte, result, 7, rb);
 }
 void sub2d(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     // 2b id
@@ -138,7 +131,7 @@ void sub2d(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     uint32_t arg1 = rb->getRegister("AL");
     uint32_t result = arg1 - imm32_byte;
     rb->setRegister("EAX", result);
-    setSubFlags(rb, result);
+    setFlagsSub(arg1, imm32_byte, result, 31, rb);
 }
 
 void sub80(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
@@ -158,14 +151,15 @@ void sub80(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
         uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
         result = arg1 - imm8_byte;
         rb->setRegister(modrm_byte_decoded->first_operand_register, result);
+        setFlagsSub(arg1, imm8_byte, result, 7, rb);
     }
     else{
         uint8_t arg1;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg1);
         result = arg1 - imm8_byte;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
+        setFlagsSub(arg1, imm8_byte, result, 7, rb);
     }
-    setSubFlags(rb, result);
 }
 
 void sub81(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
@@ -179,20 +173,19 @@ void sub81(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
 
     printf("sub $%s,%s\n",intToHexStr(imm32_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
-    uint32_t result;
+    uint32_t result, arg1;
     // Execute
     if(modrm_byte_decoded->is_first_operand_register){
-        uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
         result = arg1 - imm32_byte;
         rb->setRegister(modrm_byte_decoded->first_operand_register, result);
     }
     else{
-        uint32_t arg1;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg1);
         result = arg1 - imm32_byte;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
     }
-    setSubFlags(rb, result);
+    setFlagsSub(arg1, imm32_byte, result, 31, rb);
 }
 
 void sub83(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
@@ -206,20 +199,19 @@ void sub83(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
 
     printf("sub $%s,%s\n",intToHexStr(imm8_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
-    uint32_t result;
+    uint32_t result, arg1;
     // Execute
     if(modrm_byte_decoded->is_first_operand_register){
-        uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
         result = arg1 - imm8_byte;
         rb->setRegister(modrm_byte_decoded->first_operand_register, result);
     }
     else{
-        uint32_t arg1;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg1);
         result = arg1 - imm8_byte;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
     }
-    setSubFlags(rb, result);
+    setFlagsSub(arg1, imm8_byte, result, 31, rb);
 }
 
 void sub(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){

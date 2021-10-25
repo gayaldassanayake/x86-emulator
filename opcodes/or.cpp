@@ -1,13 +1,6 @@
 #include "or.hpp"
 #include "../utility_functions.hpp"
-
-void setOrFlags(RegisterBank *rb, uint32_t result){
-    rb->setFlag("OF", 0);
-    rb->setFlag("CF", 0);
-    rb->setFlag("SF", result>>31);
-    rb->setFlag("ZF", result==0);
-    rb->setFlag("PF", findParity(result));
-}
+#include "../utility_flag_set.hpp"
 
 void or0c(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     // 0C ib   
@@ -23,7 +16,7 @@ void or0c(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memor
     uint8_t ans = arg1 | imm8_byte;
     rb->setRegister(reg_name, ans);
     
-    setOrFlags(rb, ans);
+    setFlagsOr(arg1, imm8_byte, ans, 7, rb);
 }
 
 void or0d(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
@@ -39,7 +32,7 @@ void or0d(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memor
     uint32_t arg1 = rb->getRegister(reg_name);
     uint32_t ans = arg1 | imm32_byte;
     rb->setRegister(reg_name, ans);
-    setOrFlags(rb, ans);
+    setFlagsOr(arg1, imm32_byte, ans, 31, rb);
 }
 
 void or08(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
@@ -58,13 +51,14 @@ void or08(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memor
         uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
         ans = arg1 | arg2;
         rb->setRegister(modrm_byte_decoded->first_operand_register, ans);
+        setFlagsOr(arg1, arg2, ans, 7, rb);
     } else {
         uint8_t arg1;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg1);
         ans = arg1 | arg2;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, (uint8_t)ans);
+        setFlagsOr(arg1, arg2, ans, 7, rb);
     }
-    setOrFlags(rb, ans);
 }
 
 void or09(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
@@ -89,7 +83,7 @@ void or09(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memor
         ans = arg1 | arg2;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, ans);
     }
-    setOrFlags(rb, ans);
+    setFlagsOr(arg1, arg2, ans, 31, rb);
 }
 
 void or0a(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
@@ -108,13 +102,14 @@ void or0a(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memor
         uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
         ans = arg1 | arg2;
         rb->setRegister(modrm_byte_decoded->first_operand_register, ans);
+        setFlagsOr(arg1, arg2, ans, 7, rb);
     } else {
         uint8_t arg2;
         memory->read(modrm_byte_decoded->second_operand_effective_addr, &arg2);
         ans = arg1 | (uint32_t)arg2;
         rb->setRegister(modrm_byte_decoded->first_operand_register, ans);
+        setFlagsOr(arg1, arg2, ans, 7, rb);
     }
-    setOrFlags(rb, ans);
 }
 
 void or0b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
@@ -135,7 +130,7 @@ void or0b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memor
     }
     uint32_t ans = arg1 | arg2;
     rb->setRegister(modrm_byte_decoded->first_operand_register, ans);
-    setOrFlags(rb, ans);
+    setFlagsOr(arg1, arg2, ans, 31, rb);
 }
 
 void or_(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){

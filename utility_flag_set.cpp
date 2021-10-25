@@ -107,3 +107,53 @@ void setFlagsSub(uint32_t operand1, uint32_t operand2, uint32_t result, int msb,
     // Set OF, SF, ZF,and PF
     setFlags( operand1, operand2, result, msb, rb);
 }
+
+// Set CF, OF, SF, ZF, and PF
+void setFlagsAnd(uint32_t operand1, uint32_t operand2, uint32_t result, int msb, RegisterBank *rb){
+
+    // CF
+    rb->setFlag("CF", 0);
+    
+    // Set OF, SF, ZF, and PF
+    setFlags( operand1, operand2, result, msb, rb);
+}
+
+// Set CF, OF, SF, ZF, and PF
+void setFlagsOr(uint32_t operand1, uint32_t operand2, uint32_t result, int msb, RegisterBank *rb){
+
+    // CF
+    rb->setFlag("CF", 0);
+    
+    // Set OF, SF, ZF, and PF
+    setFlags( operand1, operand2, result, msb, rb);
+}
+
+// Set AF, OF, SF, ZF, and PF
+void setFlagsDec(uint32_t operand1, uint32_t result, int msb, RegisterBank *rb){
+
+    // AF
+    // set if borrow from a high nibble to low nibble
+    if((operand1 & (uint32_t)15) == 0){
+        rb->setFlag("AF", 1);
+    } else{
+        rb->setFlag("AF", 0);
+    }
+    
+    // Set OF, SF, ZF, and PF
+    setFlags( operand1, 1, result, msb, rb);
+}
+
+// Set AF, OF, SF, ZF, and PF
+void setFlagsInc(uint32_t operand1, uint32_t result, int msb, RegisterBank *rb){
+
+    // AF
+    // set if borrow from a high nibble to low nibble
+    if((operand1 & (uint32_t)15) == 15){
+        rb->setFlag("AF", 1);
+    } else{
+        rb->setFlag("AF", 0);
+    }
+    
+    // Set OF, SF, ZF, and PF
+    setFlags( operand1, 1, result, msb, rb);
+}
