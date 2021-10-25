@@ -7,7 +7,7 @@ void mov88(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, true, true, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
 
-    printf("mov %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("mov\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t arg = rb->getRegister(modrm_byte_decoded->second_operand_register);
@@ -25,7 +25,7 @@ void mov89(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, true, true, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
 
-    printf("mov %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("mov\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t arg = rb->getRegister(modrm_byte_decoded->second_operand_register);
@@ -43,7 +43,7 @@ void mov8a(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({true, false, true, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
 
-    printf("mov %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("mov\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint8_t arg;
@@ -62,7 +62,7 @@ void mov8b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({true, false, true, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
 
-    printf("mov %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("mov\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t arg;
@@ -83,7 +83,7 @@ void movc6(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
 
     uint8_t operand2 = readDispalcement(reader, 1);
 
-    printf("mov 0x%x,%s\n",operand2, modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("mov\t0x%x,%s\n",operand2, modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     if(modrm_byte_decoded->is_first_operand_register) {
@@ -102,7 +102,7 @@ void movc7(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
 
     uint32_t operand2 = readDispalcement(reader, 4);
 
-    printf("mov 0x%x,%s\n",operand2, modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("mov\t0x%x,%s\n",operand2, modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     if(modrm_byte_decoded->is_first_operand_register) {

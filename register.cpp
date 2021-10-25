@@ -281,7 +281,7 @@ void RegisterBank::getRegisterDump() {
     fstream file;
     file.open("register_dump.out",fstream::out);
 
-    print(cout, file, "\n******* Register Dump *******\n");
+    print(cout, file, "\n*********************** Register Dump ***********************\n");
     print(cout,file,"\n");
     print(cout, file, "| Register |  Hex Value |                       Binary Value |\n");
     print(cout, file, "|----------|------------|------------------------------------|\n");
@@ -319,26 +319,33 @@ void RegisterBank::getRegisterDump() {
 
     print(cout, file, "| EIP      | " + intToHexFmtStr(registers["EIP"]->value, 32) + " | " + intToBinFmtStr(registers["EIP"]->value, 32) + " |\n");
     print(cout, file, "| IP       | " + intToHexFmtStr(registers["IP"]->value, 16) + " | " + intToBinFmtStr(registers["IP"]->value, 16) + " |\n");
+
+    print(cout, file, "| CS       | " + intToHexFmtStr(registers["CS"]->value, 16) + " | " + intToBinFmtStr(registers["CS"]->value, 16) + " |\n");
+    print(cout, file, "| SS       | " + intToHexFmtStr(registers["SS"]->value, 16) + " | " + intToBinFmtStr(registers["SS"]->value, 16) + " |\n");
+    print(cout, file, "| DS       | " + intToHexFmtStr(registers["DS"]->value, 16) + " | " + intToBinFmtStr(registers["DS"]->value, 16) + " |\n");
+    print(cout, file, "| ES       | " + intToHexFmtStr(registers["ES"]->value, 16) + " | " + intToBinFmtStr(registers["ES"]->value, 16) + " |\n");
+    print(cout, file, "| FS       | " + intToHexFmtStr(registers["FS"]->value, 16) + " | " + intToBinFmtStr(registers["FS"]->value, 16) + " |\n");
+    print(cout, file, "| GS       | " + intToHexFmtStr(registers["GS"]->value, 16) + " | " + intToBinFmtStr(registers["GS"]->value, 16) + " |\n");
     print(cout, file, "| EFLAGS   | " + intToHexFmtStr(registers["EFLAGS"]->value, 32) + " | " + intToBinFmtStr(registers["EFLAGS"]->value, 32) + " |\n");
 
-    print(cout, file, "\n******* Flag Dump *******\n");
+    print(cout, file, "\n******************* Flag Dump *******************\n");
     print(cout, file, "\n");
-    print(cout, file, "Flag | Description                    | Value |\n");
-    print(cout, file, "-----|--------------------------------|-------|\n");
-    print(cout, file, "CF   | Carry Flag (00)                |     "+std::to_string(getFlag("CF")) + " |\n");
-    print(cout, file, "PF   | Parity Flag (02)               |     "+std::to_string(getFlag("PF")) + " |\n");
-    print(cout, file, "AF   | Auxilary Carry Flag (04)       |     "+std::to_string(getFlag("AF")) + " |\n");
-    print(cout, file, "ZF   | Zero Flag (06)                 |     "+std::to_string(getFlag("ZF")) + " |\n");
-    print(cout, file, "SF   | Sign Flag (07)                 |     "+std::to_string(getFlag("SF")) + " |\n");
-    print(cout, file, "TF   | Trap Flag (08)                 |     "+std::to_string(getFlag("TF")) + " |\n");
-    print(cout, file, "IF   | Interrupt Enable Flag (09)     |     "+std::to_string(getFlag("IF")) + " |\n");
-    print(cout, file, "DF   | Direction Flag (10)            |     "+std::to_string(getFlag("DF")) + " |\n");
-    print(cout, file, "OF   | Overflow Flag (11)             |     "+std::to_string(getFlag("OF")) + " |\n");
-    print(cout, file, "NT   | Nested Task Flag (14)          |     "+std::to_string(getFlag("NT")) + " |\n");
-    print(cout, file, "RF   | Resume Flag (16)               |     "+std::to_string(getFlag("RF")) + " |\n");
-    print(cout, file, "VM   | Virtual 8086 Mode (17)         |     "+std::to_string(getFlag("VM")) + " |\n");
-    print(cout, file, "AC   | Alignment Check (18)           |     "+std::to_string(getFlag("AC")) + " |\n");
-    print(cout, file, "VIF  | Virtual Interrupt Flag (19)    |     "+std::to_string(getFlag("VIF")) + " |\n");
-    print(cout, file, "VIP  | Virtual Interrupt Pending (20) |     "+std::to_string(getFlag("VIP")) + " |\n");
-    print(cout, file, "ID   | ID Flag (21)                   |     "+std::to_string(getFlag("ID")) + " |\n");
+    print(cout, file, "| Flag | Description                    | Value |\n");
+    print(cout, file, "| -----|--------------------------------|-------|\n");
+    print(cout, file, "| CF   | Carry Flag (00)                |     "+std::to_string(getFlag("CF")) + " |\n");
+    print(cout, file, "| PF   | Parity Flag (02)               |     "+std::to_string(getFlag("PF")) + " |\n");
+    print(cout, file, "| AF   | Auxilary Carry Flag (04)       |     "+std::to_string(getFlag("AF")) + " |\n");
+    print(cout, file, "| ZF   | Zero Flag (06)                 |     "+std::to_string(getFlag("ZF")) + " |\n");
+    print(cout, file, "| SF   | Sign Flag (07)                 |     "+std::to_string(getFlag("SF")) + " |\n");
+    print(cout, file, "| TF   | Trap Flag (08)                 |     "+std::to_string(getFlag("TF")) + " |\n");
+    print(cout, file, "| IF   | Interrupt Enable Flag (09)     |     "+std::to_string(getFlag("IF")) + " |\n");
+    print(cout, file, "| DF   | Direction Flag (10)            |     "+std::to_string(getFlag("DF")) + " |\n");
+    print(cout, file, "| OF   | Overflow Flag (11)             |     "+std::to_string(getFlag("OF")) + " |\n");
+    print(cout, file, "| NT   | Nested Task Flag (14)          |     "+std::to_string(getFlag("NT")) + " |\n");
+    print(cout, file, "| RF   | Resume Flag (16)               |     "+std::to_string(getFlag("RF")) + " |\n");
+    print(cout, file, "| VM   | Virtual 8086 Mode (17)         |     "+std::to_string(getFlag("VM")) + " |\n");
+    print(cout, file, "| AC   | Alignment Check (18)           |     "+std::to_string(getFlag("AC")) + " |\n");
+    print(cout, file, "| VIF  | Virtual Interrupt Flag (19)    |     "+std::to_string(getFlag("VIF")) + " |\n");
+    print(cout, file, "| VIP  | Virtual Interrupt Pending (20) |     "+std::to_string(getFlag("VIP")) + " |\n");
+    print(cout, file, "| ID   | ID Flag (21)                   |     "+std::to_string(getFlag("ID")) + " |\n");
 }

@@ -9,7 +9,7 @@ void and24(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     uint8_t imm8_byte = readDispalcement(reader, 1);
     string reg_name = "AL";
 
-    printf("and $%s,%%%s\n", intToHexStr(imm8_byte).c_str(), reg_name.c_str());
+    printf("and\t$%s,%%%s\n", intToHexStr(imm8_byte).c_str(), reg_name.c_str());
 
     // Execute
     uint8_t arg1 = rb->getRegister(reg_name);
@@ -26,7 +26,7 @@ void and25(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     uint32_t imm32_byte = readDispalcement(reader, 4);
     string reg_name = "EAX";
 
-    printf("and $%s,%%%s\n", intToHexStr(imm32_byte).c_str(), reg_name.c_str());
+    printf("and\t$%s,%%%s\n", intToHexStr(imm32_byte).c_str(), reg_name.c_str());
 
     // Execute
     uint32_t arg1 = rb->getRegister(reg_name);
@@ -42,7 +42,7 @@ void and20(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, true, true, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
 
-    printf("and %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("and\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
@@ -68,7 +68,7 @@ void and21(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, true, true, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
 
-    printf("and %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("and\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t arg1;
@@ -93,7 +93,7 @@ void and22(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({true, false, true, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
 
-    printf("and %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("and\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t ans;
@@ -118,7 +118,7 @@ void and23(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     // Decode
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({true, false, true, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
-    printf("and %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("and\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);

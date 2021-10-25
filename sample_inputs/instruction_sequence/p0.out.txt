@@ -1,0 +1,14 @@
+mov     0x100,%EAX
+mov     0x1010,%ECX
+add     %EAX,%ECX
+mov     %ECX,$0x5(%EAX)
+or      $0x5(%EAX),%EDX
+inc     %EDX
+and     %EDX,%ECX
+dec     %EAX
+push    %EAX
+sub     %EAX,%EBX
+xchg    %EBX,(%ECX)
+cmp     %EBX,%EDI
+pop     %EBX
+test    %EBX,%EAX

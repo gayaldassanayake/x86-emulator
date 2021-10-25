@@ -13,7 +13,7 @@ void inc40s(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Mem
     // decode
     string reg_name = opcode_reg_map[ins_arg->opcode];
     uint32_t arg = rb->getRegister(reg_name);
-    printf("inc %%%s\n",reg_name.c_str());
+    printf("inc\t%%%s\n",reg_name.c_str());
 
     // execute
     uint32_t result = arg + 1;
@@ -28,7 +28,7 @@ void incfe(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, false, false, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("inc %s\n",modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("inc\t%s\n",modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // execute
     uint32_t result;
@@ -54,7 +54,7 @@ void incff(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, false, false, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("inc %s\n",modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("inc\t%s\n",modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // execute
     uint32_t result, arg;

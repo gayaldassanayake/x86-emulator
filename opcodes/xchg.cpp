@@ -62,7 +62,7 @@ void xchg90s(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Me
     string reg_name = opcode_reg_map[ins_arg->opcode];
     uint32_t arg1 = rb->getRegister("EAX");
     uint32_t arg2 = rb->getRegister(reg_name);
-    printf("xchg %%%s,%%EAX\n",reg_name.c_str());
+    printf("xchg\t%%%s,%%EAX\n",reg_name.c_str());
 
     // execute
     rb->setRegister("EAX", arg2);

@@ -10,7 +10,7 @@ void sub28(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, true, true, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("sub %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("sub\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t result;
@@ -38,7 +38,7 @@ void sub29(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, true, true, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("sub %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("sub\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t result, arg1, arg2;
@@ -64,7 +64,7 @@ void sub2a(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({true, false, true, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("sub %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("sub\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t result;
@@ -89,7 +89,7 @@ void sub2b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({true, false, true, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("sub %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("sub\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t result, arg1, arg2;
@@ -111,7 +111,7 @@ void sub2c(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     // Decode
     uint8_t imm8_byte = readDispalcement(reader, 1);
 
-    printf("sub $%s,%%AL\n",intToHexStr(imm8_byte).c_str());
+    printf("sub\t$%s,%%AL\n",intToHexStr(imm8_byte).c_str());
 
     // Execute
     uint8_t arg1 = rb->getRegister("AL");
@@ -125,7 +125,7 @@ void sub2d(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     // Decode
     uint32_t imm32_byte = readDispalcement(reader, 4);
 
-    printf("sub $%s,%%EAX\n",intToHexStr(imm32_byte).c_str());
+    printf("sub\t$%s,%%EAX\n",intToHexStr(imm32_byte).c_str());
 
     // Execute
     uint32_t arg1 = rb->getRegister("AL");
@@ -143,7 +143,7 @@ void sub80(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
 
     uint8_t imm8_byte = readDispalcement(reader, 1);
 
-    printf("sub $%s,%s\n",intToHexStr(imm8_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("sub\t$%s,%s\n",intToHexStr(imm8_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     uint8_t result;
     // Execute
@@ -171,7 +171,7 @@ void sub81(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
 
     uint32_t imm32_byte = readDispalcement(reader, 4);
 
-    printf("sub $%s,%s\n",intToHexStr(imm32_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("sub\t$%s,%s\n",intToHexStr(imm32_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     uint32_t result, arg1;
     // Execute
@@ -197,7 +197,7 @@ void sub83(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
 
     uint32_t imm8_byte = readDispalcement(reader, 1);
 
-    printf("sub $%s,%s\n",intToHexStr(imm8_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("sub\t$%s,%s\n",intToHexStr(imm8_byte).c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     uint32_t result, arg1;
     // Execute

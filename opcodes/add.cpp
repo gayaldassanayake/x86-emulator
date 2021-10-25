@@ -95,7 +95,7 @@ void add03(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     if(modrm_byte_decoded->is_second_operand_register){
         uint32_t arg1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
         uint32_t arg2 = rb->getRegister(modrm_byte_decoded->second_operand_register);
-        rb->setRegister(modrm_byte_decoded->second_operand_register, (arg1 + arg2));
+        rb->setRegister(modrm_byte_decoded->first_operand_register, (arg1 + arg2));
         // Set CF, OF, SF, ZF, AF, and PF
         setFlagsAdd(arg1, arg2, arg1 + arg2, 31, rb);
     }

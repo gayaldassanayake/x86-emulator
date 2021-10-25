@@ -1,0 +1,6 @@
+mov     0xff,%EAX
+mov     0xaa,%ECX
+inc     %EAX
+dec     %EBX
+dec     %AH
+inc     (%ESI)

@@ -1,0 +1,11 @@
+push    %EAX
+pop     %ECX
+push    %CS
+push    %DS
+push    %ES
+pop     %DS
+pop     %ES
+pop     %SS
+xchg    %EBX,%EAX
+xchg    %EBX,$0x4(%EDX)
+xchg    %CH,%CL

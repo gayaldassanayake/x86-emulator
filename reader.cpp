@@ -1,8 +1,13 @@
 #include "reader.hpp"
+#include <iostream>
 
 Reader::Reader(string input_file_path){
     this->input_file_path = input_file_path;
     this->file.open(input_file_path); 
+    if(!this->file){
+        std::cout<<"\nIncorect Input File Path\n\n";
+        exit(0);
+    }
     file >> std::hex;
 }
 

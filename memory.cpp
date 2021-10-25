@@ -110,17 +110,17 @@ void Memory::dumpMemory(){
     
     std::map<uint32_t, uint8_t>::iterator itr;
 
-    print(cout, file, "\n******* Memory Dump *******\n\n");
+    print(cout, file, "\n********** Memory Dump **********\n\n");
     print(cout, file, "(NOTE: Only non-zero values are printed.)\n\n");
-    print(cout, file, "Address\t|      Value \n");
-    print(cout, file, "---------------------------\n");
+    print(cout, file, "|   Address  |       Value       |\n");
+    print(cout, file, "|------------|-------------------|\n");
 
     for (itr = memory_map.begin(); itr != memory_map.end(); ++itr) {
         if(itr->second == 0){
             continue;
         }
-        print(cout, file, intToHexStr(itr->first) + "\t| " + intToHexFmtStr(itr->second, 8, 2) + " | " + intToBinFmtStr(itr->second, 8, 8) + "\n");
+        print(cout, file, "| " + intToHexFmtStr(itr->first, 32) + " | " + intToHexFmtStr(itr->second, 8, 2) + " | " + intToBinFmtStr(itr->second, 8, 8) + " |\n");
     }
-
+    print(cout, file, "\n");
     file.close();
 }

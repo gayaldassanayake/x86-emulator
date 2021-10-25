@@ -7,7 +7,7 @@ void cmp38(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, true, true, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("cmp %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("cmp\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint8_t src1;
@@ -32,7 +32,7 @@ void cmp39(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({false, true, true, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("cmp %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("cmp\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t src1;
@@ -57,7 +57,7 @@ void cmp3a(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({true, false, true, REGISTER_8, REGISTER_8});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("cmp %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("cmp\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint8_t src1 = rb->getRegister(modrm_byte_decoded->first_operand_register);
@@ -82,7 +82,7 @@ void cmp3b(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     ModMrDecodeInputArguments* modrm_inputs = new ModMrDecodeInputArguments({true, false, true, REGISTER_32, REGISTER_32});
     ModMrDecodeOutputArguments* modrm_byte_decoded =  decodeModeMrByte(modrm_inputs, reader, rb, memory);
     
-    printf("cmp %s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
+    printf("cmp\t%s,%s\n",modrm_byte_decoded->decoded_print_string_op2.c_str(), modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // Execute
     uint32_t src1 = rb->getRegister(modrm_byte_decoded->first_operand_register);

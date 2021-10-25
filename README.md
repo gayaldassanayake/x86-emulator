@@ -20,7 +20,31 @@ C++ 11 is required.
 
 ```$ ./emulator.out [path to input file]```
 
-eg:- ```$ ./emulator.out sample_inputs/add/add03.in```
+eg:- ```$ ./emulator.out sample_inputs/instruction_sequence/p0.in```
+
+### 1. Run Example Programs
+
+Sample input programs are in *sample_inputs/instruction_sequence/*
+
+|   Input programs   |   Output programs    |
+| --------- | ------------- | 
+|  p0.in    |   p0.in.out   | 
+|  p1.in    |   p1.in.out   |
+|  p2.in    |   p2.in.out   |
+|  p3.in    |   p3.in.out   |
+|  p4.in    |   p4.in.out   |
+|  p5.in    |   p5.in.out   |
+|  p6.in    |   p6.in.out   | 
+
+eg:- ```$ ./emulator.out sample_inputs/instruction_sequence/p0.in```
+
+### 2. Run Example Opcodes
+
+Sample inputs for single opcodes are in *sample_inputs/[opcode]/*.in
+
+Sample outputs for the corresponding single opcodes are in *sample_inputs/[opcode]/*.out.txt
+
+eg:- ```$ ./emulator.out sample_inputs/add/add00.in```
 
 ## File and Folders
 
@@ -50,9 +74,12 @@ eg:- ```$ ./emulator.out sample_inputs/add/add03.in```
 
 - ```opcodes/[ opcode ].cpp``` - Implementaion of the decode and excution functions of the respective opcode
 
-- ```sample_inputs/[ opcode ]/ [ Input File Name ].in``` - Sample inputs
+- ```sample_inputs/[ opcode ]/ [ Input File Name ].in``` - Sample inputs for specific opcodes
 
-- ```sample_inputs/[ opcode ]/ [ Input File Name ].out.txt``` - Corresponding outputs of the sample inputs
+- ```sample_inputs/[ opcode ]/ [ Input File Name ].out.txt``` - Corresponding outputs of the sample opcode inputs
+- ```sample_inputs/instruction_sequence/ [ Input File Name ].in``` - Sample input programs
+
+- ```sample_inputs/instruction_sequence/ [ Input File Name ].out.txt``` - Corresponding outputs of the sample input programs
 
 ## Resources
 

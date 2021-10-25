@@ -1,0 +1,3 @@
+mov     0xb,%EAX
+mov     0xff,%ECX
+test    %ECX,%EAX
