@@ -32,7 +32,7 @@ reader.o: reader.hpp reader.cpp
 utility_flag_set.o: utility_flag_set.hpp utility_flag_set.cpp register.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c utility_flag_set.cpp
 
-add.o: opcodes/add.hpp opcodes/add.cpp ../utility_functions.hpp
+add.o: opcodes/add.hpp opcodes/add.cpp ../utility_functions.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/add.cpp
 
 mov.o: opcodes/mov.hpp opcodes/mov.cpp ../utility_functions.hpp
@@ -59,7 +59,7 @@ push_pop.o: opcodes/push_pop.hpp opcodes/push_pop.cpp utility_functions.hpp
 test.o: opcodes/test.hpp opcodes/test.cpp utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/test.cpp
 
-cmp.o: opcodes/cmp.hpp opcodes/cmp.cpp utility_functions.hpp
+cmp.o: opcodes/cmp.hpp opcodes/cmp.cpp utility_functions.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/cmp.cpp
 
 clean: 

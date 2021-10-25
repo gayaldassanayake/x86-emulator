@@ -63,7 +63,7 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                 // "disp32";
                 uint32_t displacement = readDispalcement(reader, 4);
                 output->first_operand_effective_addr = displacement;
-                output->decoded_print_string_op1 = intToHexStr(displacement);
+                output->decoded_print_string_op1 = "$" + intToHexStr(displacement);
             }
             else{
                 output->first_operand_effective_addr = rb->getRegister(output->first_operand_register);
@@ -83,13 +83,13 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
 
                 uint32_t displacement = readDispalcement(reader, 1);
                 output->first_operand_effective_addr += displacement;
-                output->decoded_print_string_op1 = intToHexStr(displacement);
+                output->decoded_print_string_op1 = "$" + intToHexStr(displacement);
                 output->decoded_print_string_op1 += sib_outputs->decoded_print_string;
             }
             else{
                 uint32_t displacement = readDispalcement(reader, 1);
                 output->first_operand_effective_addr = rb->getRegister(output->first_operand_register) + displacement;
-                output->decoded_print_string_op1 = intToHexStr(displacement) + "(%" + output->first_operand_register + ")";
+                output->decoded_print_string_op1 = "$" + intToHexStr(displacement) + "(%" + output->first_operand_register + ")";
             }
         }
         else if(mod == 2){
@@ -106,13 +106,13 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
 
                 uint32_t displacement = readDispalcement(reader, 4);
                 output->first_operand_effective_addr += displacement;
-                output->decoded_print_string_op1 = intToHexStr(displacement);
+                output->decoded_print_string_op1 = "$" + intToHexStr(displacement);
                 output->decoded_print_string_op1 += sib_outputs->decoded_print_string;
             }
             else{
                 uint32_t displacement = readDispalcement(reader, 4);
                 output->first_operand_effective_addr = rb->getRegister(output->first_operand_register) + displacement;
-                output->decoded_print_string_op1 = intToHexStr(displacement) + "(%" + output->first_operand_register + ")";
+                output->decoded_print_string_op1 = "$" + intToHexStr(displacement) + "(%" + output->first_operand_register + ")";
             }
         }
         else{
@@ -180,7 +180,7 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
                     // "disp32";
                     uint32_t displacement = readDispalcement(reader, 4);
                     output->second_operand_effective_addr = displacement;
-                    output->decoded_print_string_op2 = intToHexStr(displacement);
+                    output->decoded_print_string_op2 = "$" + intToHexStr(displacement);
                 }
                 else{
                     output->second_operand_effective_addr = rb->getRegister(output->second_operand_register);
@@ -201,13 +201,13 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
 
                     uint32_t displacement = readDispalcement(reader, 1);
                     output->second_operand_effective_addr += displacement;
-                    output->decoded_print_string_op1 = intToHexStr(displacement);
+                    output->decoded_print_string_op1 = "$" + intToHexStr(displacement);
                     output->decoded_print_string_op1 += sib_outputs->decoded_print_string;                
                 }
                 else{
                     uint32_t displacement = readDispalcement(reader, 1);
                     output->second_operand_effective_addr = rb->getRegister(output->second_operand_register) + displacement;
-                    output->decoded_print_string_op2 = intToHexStr(displacement) + "(%" + output->second_operand_register + ")";
+                    output->decoded_print_string_op2 = "$" + intToHexStr(displacement) + "(%" + output->second_operand_register + ")";
                 }
             }
             else if(mod == 2){
@@ -224,13 +224,13 @@ ModMrDecodeOutputArguments* decodeModeMrByte(ModMrDecodeInputArguments* inputs, 
 
                     uint32_t displacement = readDispalcement(reader, 4);
                     output->second_operand_effective_addr += displacement;
-                    output->decoded_print_string_op1 = intToHexStr(displacement);
+                    output->decoded_print_string_op1 = "$" + intToHexStr(displacement);
                     output->decoded_print_string_op1 += sib_outputs->decoded_print_string;                
                 }
                 else{
                     uint32_t displacement = readDispalcement(reader, 4);
                     output->second_operand_effective_addr = rb->getRegister(output->second_operand_register) + displacement;
-                    output->decoded_print_string_op2 = intToHexStr(displacement) + "(%" + output->second_operand_register + ")";
+                    output->decoded_print_string_op2 = "$" + intToHexStr(displacement) + "(%" + output->second_operand_register + ")";
                 }
             }
             else{
