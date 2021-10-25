@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
     // cout<<std::hex;
 
     Reader reader(argv[1]);
-    Memory memory(1000);
+    Memory *memory = new Memory;
     // RegisterBank rb();
     RegisterBank rb = RegisterBank();
 
@@ -102,36 +102,37 @@ int main(int argc, char *argv[]){
         
         // call the respective handler
         if(op_add.count(arguments->opcode)){
-            add(arguments, &reader, &rb, &memory);
+            add(arguments, &reader, &rb, memory);
         } else if(op_mov.count(arguments->opcode)) {
-            mov(arguments, &reader, &rb, &memory);
+            mov(arguments, &reader, &rb, memory);
         } else if(op_and.count(arguments->opcode)) {
-            and_(arguments, &reader, &rb, &memory);
+            and_(arguments, &reader, &rb, memory);
         } else if(op_or.count(arguments->opcode)) {
-            or_(arguments, &reader, &rb, &memory);
+            or_(arguments, &reader, &rb, memory);
         } else if(op_inc.count(arguments->opcode)) {
-            inc(arguments, &reader, &rb, &memory);
+            inc(arguments, &reader, &rb, memory);
         } else if(op_dec.count(arguments->opcode)) {
-            dec(arguments, &reader, &rb, &memory);
+            dec(arguments, &reader, &rb, memory);
         } else if(op_push.count(arguments->opcode)){
-            push(arguments, &reader, &rb, &memory);
+            push(arguments, &reader, &rb, memory);
         }else if(op_test.count(arguments->opcode)){
-            test(arguments, &reader, &rb, &memory);
+            test(arguments, &reader, &rb, memory);
         }else if(op_cmp.count(arguments->opcode)){
-            cmp(arguments, &reader, &rb, &memory);
+            cmp(arguments, &reader, &rb, memory);
         } else if(op_pop.count(arguments->opcode)){
-            pop(arguments, &reader, &rb, &memory);
+            pop(arguments, &reader, &rb, memory);
         } else if(op_sub.count(arguments->opcode)){
-            sub(arguments, &reader, &rb, &memory);
+            sub(arguments, &reader, &rb, memory);
         } else if(op_xchg.count(arguments->opcode)){
-            xchg(arguments, &reader, &rb, &memory);
+            xchg(arguments, &reader, &rb, memory);
         } else if(opcode_exten.count(arguments->opcode)) {
-            mapOpcodeExtendedInstructions(arguments, &reader, &rb, &memory);
+            mapOpcodeExtendedInstructions(arguments, &reader, &rb, memory);
         } else{
             printf("Opcode: %s is noopcode_byte_4t suporting!\n", intToHexStr(arguments->opcode).c_str());
         }  
         // break; 
     }
     rb.getRegisterDump();
+    memory->dumpMemory();
     printf("\nFinished Emulating...\n");
 }

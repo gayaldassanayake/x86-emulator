@@ -17,7 +17,7 @@ modmr.o: modmr.hpp modmr.cpp sib.hpp utility_functions.hpp
 sib.o: sib.hpp sib.cpp utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c sib.cpp
 
-memory.o: memory.hpp memory.cpp
+memory.o: memory.hpp memory.cpp utility_functions.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c memory.cpp
 
 register.o: register.hpp register.cpp utility_functions.hpp
