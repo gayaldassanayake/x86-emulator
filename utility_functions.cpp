@@ -1,8 +1,21 @@
 #include "utility_functions.hpp"
 
+string getBinValue(uint32_t num, int width){
+    if(width<=8) {
+        std::bitset<8> bin(num);
+        return bin.to_string();
+    } else if(width<=16) {
+        std::bitset<16> bin(num);
+        return bin.to_string();
+    } else {
+        std::bitset<32> bin(num);
+        return bin.to_string();
+    }
+}
+
 string intToBinFmtStr(uint32_t num, int width){
-    std::bitset<8> bin(num);
-    int zeros = width - bin.to_string().size();
+    string bin = getBinValue(num, width); 
+    int zeros = width - bin.size();
     int spaces = 32 - width;
     string prefix="";
     for(int i=0;i<spaces;i++){
@@ -12,7 +25,7 @@ string intToBinFmtStr(uint32_t num, int width){
     for(int i=0;i<zeros;i++){
         prefix += "0";
     }
-    string bin_str = prefix + bin.to_string();
+    string bin_str = prefix + bin;
     return bin_str;
 }
 
