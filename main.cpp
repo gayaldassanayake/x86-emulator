@@ -38,6 +38,7 @@ int main(int argc, char *argv[]){
         };
     std::set<uint32_t, std::greater<uint32_t> > op_test = { 0x84, 0x85 };
     std::set<uint32_t, std::greater<uint32_t> > op_cmp = { 0x38, 0x39, 0x3a, 0x3b };
+    std::set<uint32_t, std::greater<uint32_t> > op_xchg = { 0x86, 0x87, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97 };
     std::set<uint32_t, std::greater<uint32_t> > opcode_exten = { 0x80, 0x81, 0x82, 0x83, 0xc6, 0xc7, 0xfe, 0xff };
 
 
@@ -122,6 +123,8 @@ int main(int argc, char *argv[]){
             pop(arguments, &reader, &rb, memory);
         } else if(op_sub.count(arguments->opcode)){
             sub(arguments, &reader, &rb, memory);
+        } else if(op_xchg.count(arguments->opcode)){
+            xchg(arguments, &reader, &rb, memory);
         } else if(opcode_exten.count(arguments->opcode)) {
             mapOpcodeExtendedInstructions(arguments, &reader, &rb, memory);
         } else{
