@@ -1,14 +1,7 @@
 #include <map>
 #include "dec.hpp"
 #include "../utility_functions.hpp"
-
-void setDecFlags(RegisterBank *rb, uint32_t result){
-    // OF, SF, ZF, AF, and PF
-    // rb->setFlag("OF",0);
-    rb->setFlag("SF", result>>31);
-    rb->setFlag("ZF", result==0);
-    rb->setFlag("PF", findParity(result));
-}
+#include "../utility_flag_set.hpp"
 
 void dec40s(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     // 48+rd
@@ -25,7 +18,7 @@ void dec40s(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Mem
     // execute
     uint32_t result = arg - 1;
     rb->setRegister(reg_name, result);
-    setDecFlags(rb, result);
+    setFlagsDec(arg, result, 31, rb);
 }
 
 void decfe(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
@@ -43,14 +36,15 @@ void decfe(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
         uint32_t arg = rb->getRegister(modrm_byte_decoded->first_operand_register);
         uint32_t result = arg - 1;
         rb->setRegister(modrm_byte_decoded->first_operand_register, result);
+        setFlagsDec(arg, result, 7, rb);
     }
     else{
         uint8_t arg;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg);
         result = arg - 1;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, (uint8_t)(result));
+        setFlagsDec(arg, result, 7, rb);
     }
-    setDecFlags(rb, result);
 }
 
 void decff(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
@@ -63,19 +57,18 @@ void decff(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     printf("dec %s\n",modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // execute
-    uint32_t result;
+    uint32_t result, arg;
     if(modrm_byte_decoded->is_first_operand_register){
-        uint32_t arg = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        arg = rb->getRegister(modrm_byte_decoded->first_operand_register);
         uint32_t result = arg - 1;
         rb->setRegister(modrm_byte_decoded->first_operand_register, result);
     }
     else{
-        uint32_t arg;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg);
         result = arg - 1;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
     }
-    setDecFlags(rb, result);  
+    setFlagsDec(arg, result, 31, rb);
 }
 
 void dec(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){

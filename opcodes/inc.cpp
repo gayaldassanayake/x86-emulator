@@ -1,24 +1,7 @@
 #include <map>
 #include "inc.hpp"
 #include "../utility_functions.hpp"
-
-// int checkIncOverflow(uint32_t value, uint32_t size) {
-//     uint32_t original = value -1;
-//     value = (value << (32-size)) | ((1<<(32-size))-1);
-//     original = (original << (32-size)) | ((1<<(32-size))-1);
-//     if(original>0 && value<0) {
-//         return 1;
-//     }
-//     return 0;
-// }
-
-void setIncFlags(RegisterBank *rb, uint32_t result){
-    // OF, SF, ZF, AF, and PF
-    // rb->setFlag("OF",0);
-    rb->setFlag("SF", result>>31);
-    rb->setFlag("ZF", result==0);
-    rb->setFlag("PF", findParity(result));
-}
+#include "../utility_flag_set.hpp"
 
 void inc40s(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){
     // 40+rd
@@ -35,7 +18,7 @@ void inc40s(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Mem
     // execute
     uint32_t result = arg + 1;
     rb->setRegister(reg_name, result);
-    setIncFlags(rb, result);
+    setFlagsInc(arg, result, 31, rb);
 }
 
 void incfe(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
@@ -53,14 +36,15 @@ void incfe(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
         uint32_t arg = rb->getRegister(modrm_byte_decoded->first_operand_register);
         uint32_t result = arg + 1;
         rb->setRegister(modrm_byte_decoded->first_operand_register, result);
+        setFlagsInc(arg, result, 7, rb);
     }
     else{
         uint8_t arg;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg);
         result = arg + 1;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, (uint8_t)(result));
+        setFlagsInc(arg, result, 7, rb);
     }
-    setIncFlags(rb, result);  
 }
 
 void incff(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory) {
@@ -73,19 +57,18 @@ void incff(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memo
     printf("inc %s\n",modrm_byte_decoded->decoded_print_string_op1.c_str());
 
     // execute
-    uint32_t result;
+    uint32_t result, arg;
     if(modrm_byte_decoded->is_first_operand_register){
-        uint32_t arg = rb->getRegister(modrm_byte_decoded->first_operand_register);
+        arg = rb->getRegister(modrm_byte_decoded->first_operand_register);
         uint32_t result = arg + 1;
         rb->setRegister(modrm_byte_decoded->first_operand_register, result);
     }
     else{
-        uint32_t arg;
         memory->read(modrm_byte_decoded->first_operand_effective_addr, &arg);
         result = arg + 1;
         memory->store(modrm_byte_decoded->first_operand_effective_addr, result);
     }
-    setIncFlags(rb, result);  
+    setFlagsInc(arg, result, 31, rb);
 }
 
 void inc(InstructionArguments *ins_arg, Reader *reader, RegisterBank *rb, Memory *memory){

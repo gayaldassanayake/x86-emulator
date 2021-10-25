@@ -35,19 +35,19 @@ utility_flag_set.o: utility_flag_set.hpp utility_flag_set.cpp register.hpp
 add.o: opcodes/add.hpp opcodes/add.cpp ../utility_functions.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/add.cpp
 
-mov.o: opcodes/mov.hpp opcodes/mov.cpp ../utility_functions.hpp
+mov.o: opcodes/mov.hpp opcodes/mov.cpp ../utility_functions.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/mov.cpp
 
-and.o: opcodes/and.hpp opcodes/and.cpp ../utility_functions.hpp
+and.o: opcodes/and.hpp opcodes/and.cpp ../utility_functions.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/and.cpp
 
-or.o: opcodes/or.hpp opcodes/or.cpp ../utility_functions.hpp
+or.o: opcodes/or.hpp opcodes/or.cpp ../utility_functions.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/or.cpp
 
-inc.o: opcodes/inc.hpp opcodes/inc.cpp ../utility_functions.hpp
+inc.o: opcodes/inc.hpp opcodes/inc.cpp ../utility_functions.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/inc.cpp
 
-dec.o: opcodes/dec.hpp opcodes/dec.cpp ../utility_functions.hpp
+dec.o: opcodes/dec.hpp opcodes/dec.cpp ../utility_functions.hpp utility_flag_set.hpp
 	$(CC) $(CXXFLAGS) $(CPPFLAGS) -c opcodes/dec.cpp
 
 sub.o: opcodes/sub.hpp opcodes/sub.cpp ../utility_functions.hpp
