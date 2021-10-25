@@ -13,9 +13,9 @@ using std::ostream;
 
 string intToHexStr(uint32_t num);
 
-string intToBinFmtStr(uint32_t num, int width);
+string intToBinFmtStr(uint32_t num, int width, int space_gap = 32);
 
-string intToHexFmtStr(uint32_t num, int width);
+string intToHexFmtStr(uint32_t num, int width, int space_gap = 8);
 
 uint32_t hexToInt(string hex_str);
 

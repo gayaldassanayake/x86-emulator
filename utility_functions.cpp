@@ -1,9 +1,9 @@
 #include "utility_functions.hpp"
 
-string intToBinFmtStr(uint32_t num, int width){
+string intToBinFmtStr(uint32_t num, int width, int space_gap){
     std::bitset<8> bin(num);
     int zeros = width - bin.to_string().size();
-    int spaces = 32 - width;
+    int spaces = space_gap - width;
     string prefix="";
     for(int i=0;i<spaces;i++){
         prefix += " ";
@@ -16,11 +16,11 @@ string intToBinFmtStr(uint32_t num, int width){
     return bin_str;
 }
 
-string intToHexFmtStr(uint32_t num, int width){
+string intToHexFmtStr(uint32_t num, int width, int space_gap){
     std::stringstream sstream;
     sstream << std::hex << num;
     int zeros = width/4.0 - sstream.str().size();
-    int spaces = 8 - width/4.0;
+    int spaces = space_gap - width/4.0;
     string prefix="";
     for(int i=0;i<spaces;i++){
         prefix += " ";
