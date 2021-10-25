@@ -24,12 +24,22 @@ void mapOpcodeExtendedInstructions(InstructionArguments *ins_arg, Reader *reader
                         break;
                     case 5:
                         sub(ins_arg, reader, rb, memory);
+                        break;
                     default:
                         opcodeExtUnsupportedError(ins_arg->opcode);
                         break;
                 }
                 break;
             case 0xc6:
+                switch(reg) {
+                    case 0:
+                        mov(ins_arg, reader, rb, memory);
+                        break;
+                    default:
+                        opcodeExtUnsupportedError(ins_arg->opcode);
+                        break;
+                }
+                break;
             case 0xc7:
                 switch(reg) {
                     case 0:
