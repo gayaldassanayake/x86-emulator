@@ -1,0 +1,10 @@
+mov     0xff,%EAX
+mov     0xaa,%ECX
+and     %ECX,%EAX
+and     $0xf,%AL
+mov     %ECX,$0x2(%EDX)
+and     %EBX,$0x2(%EDX)
+or      $0xbb00,%EAX
+or      %AH,(%EAX)
+mov     0xff0000,%EDX
+or      %EDX,%ECX

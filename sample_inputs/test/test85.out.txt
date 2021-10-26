@@ -1,0 +1,1 @@
+85 c0       test    %eax,%eax

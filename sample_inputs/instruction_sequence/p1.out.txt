@@ -1,0 +1,7 @@
+mov     0x8b2a0010,%EAX
+mov     0x12f0010,%ECX
+add     %EAX,%ECX
+mov     0x1,%EDX
+sub     %EDX,%ECX
+add     $0x2,%ECX
+sub     $0x4,%AL

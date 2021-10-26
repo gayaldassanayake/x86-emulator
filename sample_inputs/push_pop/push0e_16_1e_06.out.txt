@@ -1,0 +1,6 @@
+0e 16 1e 06
+
+push    %CS
+push    %SS
+push    %DS
+push    %ES

@@ -1,0 +1,1 @@
+mov %EAX,$0x18(%EBX)
